@@ -198,26 +198,62 @@ body{
   display:inline-block;background:#fff;padding:1px 4px;font-family:monospace;
   color:#000;border:1px inset #808080;margin:3px;
 }
-.popup-ad{
-  display:none;position:fixed;bottom:20px;right:20px;z-index:180;
-  width:200px;background:#c0c0c0;
-  border:2px solid;border-color:#fff #808080 #808080 #fff;
-  padding:10px;text-align:center;
-  box-shadow:2px 2px 0 0 #000;
+
+#minesweeper{
+  position:fixed;top:44px;right:2px;z-index:99;
+  background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:4px;user-select:none;width:148px;
+  box-shadow:1px 1px 0 0 #000;
 }
-.popup-ad.active{display:block}
-.popup-ad h3{color:#000080;font-size:11px;margin-bottom:3px}
-.popup-ad p{color:#000;font-size:10px;margin-bottom:5px}
-.popup-ad button{
-  background:#c0c0c0;color:#000;font-family:'MS Sans Serif',sans-serif;
-  border:2px solid;border-color:#fff #808080 #808080 #fff;
-  padding:3px 10px;font-size:10px;cursor:pointer;
+#ms-title{
+  background:linear-gradient(90deg,#000080,#1084d0);color:#fff;
+  font-size:10px;font-weight:bold;padding:2px 4px;margin-bottom:3px;
+  display:flex;justify-content:space-between;
 }
-.popup-ad button:active{border-color:#808080 #fff #fff #808080}
-.side-ad{position:fixed;width:110px;z-index:100;font-family:'MS Sans Serif',sans-serif;font-size:9px;text-align:center;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:4px;cursor:pointer;background:#c0c0c0;}
-.side-ad.left{left:2px;}
-.side-ad.right{right:2px;}
-.side-ad .blink{animation:blink .4s infinite;font-weight:bold;color:#000080;}
+#ms-title button{
+  width:14px;height:14px;font-size:7px;line-height:10px;padding:0;
+  background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
+  cursor:pointer;font-family:'MS Sans Serif',sans-serif;
+}
+.ms-top{
+  display:flex;justify-content:space-between;align-items:center;
+  border:2px inset #808080;padding:3px;margin-bottom:3px;background:#c0c0c0;
+}
+.ms-counter{
+  background:#000;color:#f00;font-family:'Lucida Console',monospace;
+  font-size:14px;font-weight:bold;padding:1px 3px;letter-spacing:2px;
+  border:1px inset #808080;min-width:30px;text-align:center;
+}
+.ms-face{
+  width:26px;height:26px;font-size:14px;line-height:22px;text-align:center;
+  background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
+  cursor:pointer;padding:0;font-family:'MS Sans Serif',sans-serif;
+}
+.ms-face:active{border-color:#808080 #fff #fff #808080}
+.ms-board{
+  border:2px inset #808080;background:#c0c0c0;padding:1px;
+  display:grid;grid-template-columns:repeat(9,14px);gap:0;
+}
+.ms-cell{
+  width:14px;height:14px;font-size:9px;font-weight:bold;line-height:14px;
+  text-align:center;background:#c0c0c0;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  cursor:pointer;font-family:'Lucida Console',monospace;
+}
+.ms-cell:active{border-color:#808080 #fff #fff #808080}
+.ms-cell.revealed{
+  background:#fff;border:1px solid #808080;cursor:default;
+}
+.ms-cell.flag{background:#c0c0c0;color:#f00;}
+.ms-cell.mine{background:#f00;color:#fff;border:1px solid #808080;}
+.ms-cell.n1{color:#00f}
+.ms-cell.n2{color:#080}
+.ms-cell.n3{color:#f00}
+.ms-cell.n4{color:#000080}
+.ms-cell.n5{color:#800}
+.ms-cell.n6{color:#008080}
+.ms-cell.n7{color:#000}
+.ms-cell.n8{color:#808080}
 .win98-statusbar{
   display:flex;justify-content:space-between;align-items:center;
   padding:3px 6px;background:#c0c0c0;
@@ -228,19 +264,18 @@ body{
 </head>
 <body>
 
+<div id="minesweeper">
+  <div id="ms-title"><span>🔍 Buscaminas</span><button onclick="this.parentElement.parentElement.style.display='none'">✕</button></div>
+  <div class="ms-top">
+    <div class="ms-counter" id="msMineCount">010</div>
+    <button class="ms-face" id="msFace">🙂</button>
+    <div class="ms-counter" id="msTimer">000</div>
+  </div>
+  <div class="ms-board" id="msBoard"></div>
+</div>
+
 <div class="marquee"><span>🚨 SU DINERO ESTÁ SEGURO CON NOSOTROS... CREEMOS 🚨 | TASA FIJA 0.0001% — 9999% SUJETO A CAMBIO SIN AVISO | 🚨 DEPÓSITOS ASEGURADOS POR NADIE 🚨</span></div>
 
-<div class="side-ad left" style="top:100px"><div class="blink" style="color:#f00">🔥🔥🔥🔥🔥</div><div style="background:#ff0;color:#00f;padding:2px">¡GANE DINERO!</div><div style="color:#fff;background:#00f;padding:2px">Trabaje desde su casa</div><div style="color:#ff0;font-size:7px">Envianos su alma y ganará millones!</div></div>
-<div class="side-ad left" style="top:270px"><div style="background:#f0f;color:#ff0;padding:2px">💊 VIAGRA 💊</div><div style="color:#fff;background:#000;padding:2px">Genérica 100% original</div><div style="color:#0f0;font-size:7px">Sin receta, sin vergüenza</div></div>
-<div class="side-ad left" style="top:430px"><div class="blink" style="color:#0ff">🔮 🔮 🔮</div><div style="background:#000;color:#fff;padding:2px">VIDA PASADA</div><div style="color:#f80;font-size:7px">Descubra si fue un banco en otra vida</div></div>
-<div class="side-ad left" style="top:580px"><div style="background:#f00;color:#ff0;padding:2px" class="blink">⚠️ USTED GANÓ ⚠️</div><div style="color:#fff;background:#800;padding:2px">Un premio de $10,000,000</div><div style="color:#ff0;font-size:7px">Haga clic para recibirlo (no es broma)</div></div>
-<div class="side-ad left" style="top:730px"><div style="background:#080;color:#0f0;padding:2px">🐍 VIBORAS 🐍</div><div style="color:#fff;background:#000;padding:2px">Mascotas exóticas</div><div style="color:#f80;font-size:7px">Entrenadas para atender llamadas</div></div>
-
-<div class="side-ad right" style="top:90px"><div class="blink" style="color:#f00">☠☠☠</div><div style="background:#000;color:#f00;padding:2px">HACKER</div><div style="color:#0f0;background:#000;padding:2px">¡Su PC está infectada!</div><div style="color:#ff0;font-size:7px">Llámenos al 0-800-HACK</div></div>
-<div class="side-ad right" style="top:250px"><div style="background:#ff0;color:#f00;padding:2px" class="blink">✂ CORTE DE CABELLO ✂</div><div style="color:#000;background:#f80;padding:2px">A domicilio, en su PC</div><div style="color:#fff;font-size:7px">Cortamos su pelo por Internet</div></div>
-<div class="side-ad right" style="top:410px"><div style="background:#00f;color:#fff;padding:2px">🛸 EXTRATERRESTRES 🛸</div><div style="color:#0f0;background:#000;padding:2px">Contacto inmediato</div><div style="color:#f0f;font-size:7px">Sintonice nuestra frecuencia</div></div>
-<div class="side-ad right" style="top:570px"><div style="background:#f80;color:#000;padding:2px" class="blink">🍕 PIZZA GRATIS 🍕</div><div style="color:#fff;background:#080;padding:2px">Sólo por hoy!</div><div style="color:#ff0;font-size:7px">Válido en la Antártida</div></div>
-<div class="side-ad right" style="top:720px"><div style="background:#f0f;color:#fff;padding:2px">💍 MATRIMONIO 💍</div><div style="color:#ff0;background:#000;padding:2px">Casamiento express</div><div style="color:#0ff;font-size:7px">Cases a su mascota con la del vecino</div></div>
 
 <div class="win98-window">
   <div class="win98-title">
@@ -364,11 +399,6 @@ body{
   <button onclick="closeVirus()">OK, ME ENTREGO</button>
 </div>
 
-<div class="popup-ad" id="popupAd">
-  <h3>🍹 ¡GANÓ UN VIAJE!</h3>
-  <p>El viaje es a la oficina de al lado. Camine 2 metros y va a llegar. Acá no sobra la plata para viajes.</p>
-  <button onclick="closeAd()">RECLAMAR (la caminata)</button>
-</div>
 
 <div class="bsod" id="bsod">
   <h1>💀 SISTEMA OPERATIVO HA DETENIDO SU TRANSACCIÓN</h1>
@@ -424,7 +454,7 @@ const balance=document.getElementById('balance')
 
 acctNum.textContent='**** '+String(Math.floor(Math.random()*9000)+1000)+'-'+String(Math.floor(Math.random()*900)+100)
 
-let virusTimer, adTimer, bsodTimer
+let virusTimer, bsodTimer
 function rand(min,max){return Math.random()*(max-min)+min}
 
 function showVirus(){
@@ -433,12 +463,6 @@ function showVirus(){
 }
 function closeVirus(){document.getElementById('virusPopup').classList.remove('active')}
 
-function showAd(){
-  const ad=document.getElementById('popupAd')
-  ad.classList.add('active')
-  setTimeout(()=>ad.classList.remove('active'),4000)
-}
-function closeAd(){document.getElementById('popupAd').classList.remove('active')}
 
 function showBsod(){
   document.getElementById('bsod').classList.add('active')
@@ -446,7 +470,7 @@ function showBsod(){
 }
 
 virusTimer=setInterval(()=>{if(Math.random()<.3)showVirus()},rand(8000,15000))
-adTimer=setInterval(()=>{if(Math.random()<.25)showAd()},rand(5000,12000))
+
 bsodTimer=setInterval(showBsod,rand(25000,40000))
 
 revealBtn.addEventListener('click',()=>{
@@ -662,6 +686,159 @@ setInterval(()=>{
   ]
   balance.textContent=bals[Math.floor(Math.random()*bals.length)]
 },3000)
+
+// Minesweeper
+const MS_ROWS=9,MS_COLS=9,MS_MINES=10
+let msBoard, msRevealed, msFlagged, msGameOver, msFirstClick, msMinesPlaced, msTimerInterval
+const msGrid=document.getElementById('msBoard')
+const msMineCountEl=document.getElementById('msMineCount')
+const msTimerEl=document.getElementById('msTimer')
+const msFace=document.getElementById('msFace')
+
+function msInit(){
+  msBoard=Array.from({length:MS_ROWS},()=>Array(MS_COLS).fill(0))
+  msRevealed=Array.from({length:MS_ROWS},()=>Array(MS_COLS).fill(false))
+  msFlagged=Array.from({length:MS_ROWS},()=>Array(MS_COLS).fill(false))
+  msGameOver=false
+  msFirstClick=true
+  msMinesPlaced=false
+  if(msTimerInterval) clearInterval(msTimerInterval)
+  msTimerInterval=null
+  msTimerEl.textContent='000'
+  msMineCountEl.textContent=String(MS_MINES).padStart(3,'0')
+  msFace.textContent='🙂'
+  msGrid.innerHTML=''
+  for(let r=0;r<MS_ROWS;r++){
+    for(let c=0;c<MS_COLS;c++){
+      const cell=document.createElement('div')
+      cell.className='ms-cell'
+      cell.dataset.r=r
+      cell.dataset.c=c
+      cell.addEventListener('click',()=>msClick(r,c))
+      cell.addEventListener('contextmenu',e=>{e.preventDefault();msRightClick(r,c)})
+      msGrid.appendChild(cell)
+    }
+  }
+}
+
+function msPlaceMines(sr,sc){
+  let placed=0
+  while(placed<MS_MINES){
+    const r=Math.floor(Math.random()*MS_ROWS)
+    const c=Math.floor(Math.random()*MS_COLS)
+    if(msBoard[r][c]!==-1 && !(r===sr && c===sc)){
+      msBoard[r][c]=-1
+      placed++
+    }
+  }
+  for(let r=0;r<MS_ROWS;r++){
+    for(let c=0;c<MS_COLS;c++){
+      if(msBoard[r][c]===-1) continue
+      let count=0
+      for(let dr=-1;dr<=1;dr++)
+        for(let dc=-1;dc<=1;dc++){
+          const nr=r+dr,nc=c+dc
+          if(nr>=0&&nr<MS_ROWS&&nc>=0&&nc<MS_COLS&&msBoard[nr][nc]===-1) count++
+        }
+      msBoard[r][c]=count
+    }
+  }
+}
+
+function msGetCell(r,c){return msGrid.querySelector(`[data-r="${r}"][data-c="${c}"]`)}
+
+function msReveal(r,c){
+  if(r<0||r>=MS_ROWS||c<0||c>=MS_COLS||msRevealed[r][c]||msFlagged[r][c]) return
+  msRevealed[r][c]=true
+  const cell=msGetCell(r,c)
+  cell.classList.add('revealed')
+  if(msBoard[r][c]===-1){
+    cell.classList.add('mine')
+    cell.textContent='💣'
+    msGameOver=true
+    msFace.textContent='💀'
+    if(msTimerInterval) clearInterval(msTimerInterval)
+    msRevealAll()
+  }else if(msBoard[r][c]>0){
+    cell.classList.add('n'+msBoard[r][c])
+    cell.textContent=msBoard[r][c]
+  }else{
+    for(let dr=-1;dr<=1;dr++)
+      for(let dc=-1;dc<=1;dc++)
+        msReveal(r+dr,c+dc)
+  }
+}
+
+function msRevealAll(){
+  for(let r=0;r<MS_ROWS;r++)
+    for(let c=0;c<MS_COLS;c++)
+      if(msBoard[r][c]===-1){
+        const cell=msGetCell(r,c)
+        cell.classList.add('revealed','mine')
+        cell.textContent='💣'
+      }
+}
+
+function msCheckWin(){
+  let total=0
+  for(let r=0;r<MS_ROWS;r++)
+    for(let c=0;c<MS_COLS;c++)
+      if(msRevealed[r][c]||msFlagged[r][c]) total++
+  if(total===MS_ROWS*MS_COLS){
+    msFace.textContent='😎'
+    msGameOver=true
+    if(msTimerInterval) clearInterval(msTimerInterval)
+  }
+}
+
+function msClick(r,c){
+  if(msGameOver||msFlagged[r][c]) return
+  if(msFirstClick){
+    msFirstClick=false
+    msPlaceMines(r,c)
+    let sec=0
+    msTimerInterval=setInterval(()=>{sec++;msTimerEl.textContent=String(sec).padStart(3,'0')},1000)
+  }
+  if(msBoard[r][c]===-1){
+    msReveal(r,c)
+  }else if(msRevealed[r][c]){
+    let flagCount=0
+    for(let dr=-1;dr<=1;dr++)
+      for(let dc=-1;dc<=1;dc++){
+        const nr=r+dr,nc=c+dc
+        if(nr>=0&&nr<MS_ROWS&&nc>=0&&nc<MS_COLS&&msFlagged[nr][nc]) flagCount++
+      }
+    if(flagCount===msBoard[r][c]){
+      for(let dr=-1;dr<=1;dr++)
+        for(let dc=-1;dc<=1;dc++)
+          msReveal(r+dr,c+dc)
+    }
+  }else{
+    msReveal(r,c)
+  }
+  msCheckWin()
+}
+
+function msRightClick(r,c){
+  if(msGameOver||msRevealed[r][c]) return
+  msFlagged[r][c]=!msFlagged[r][c]
+  const cell=msGetCell(r,c)
+  if(msFlagged[r][c]){
+    cell.textContent='🚩'
+    cell.classList.add('flag')
+  }else{
+    cell.textContent=''
+    cell.classList.remove('flag')
+  }
+  let fc=0
+  for(let r=0;r<MS_ROWS;r++)
+    for(let c=0;c<MS_COLS;c++)
+      if(msFlagged[r][c]) fc++
+  msMineCountEl.textContent=String(MS_MINES-fc).padStart(3,'0')
+}
+
+msFace.addEventListener('click',msInit)
+msInit()
 </script>
 
 </body>
