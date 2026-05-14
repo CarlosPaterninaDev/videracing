@@ -8,230 +8,222 @@
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 @keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(4px,-3px)}50%{transform:translate(-2px,5px)}75%{transform:translate(3px,-4px)}}
 @keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-@keyframes hue{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(360deg)}}
-@keyframes glitch{0%,100%{letter-spacing:normal}50%{letter-spacing:8px}}
 @keyframes progress{0%{width:0%}90%{width:95%}95%{width:50%}100%{width:0%}}
-*{margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
 body{
-  background:#1a0000;
-  font-family:'Comic Sans MS','Chalkboard SE',cursive;
-  color:#0f0;overflow-x:hidden;
-  cursor:wait;
-  background-image:radial-gradient(circle,#3a0000 1px,transparent 1px);
-  background-size:20px 20px;
+  background:#008080;
+  font-family:'MS Sans Serif','Microsoft Sans Serif',sans-serif;
+  font-size:11px;overflow-x:hidden;
+  cursor:default;
 }
-.marquee{
-  overflow:hidden;white-space:nowrap;
-  background:linear-gradient(90deg,#ff0,#f0f,#0ff,#ff0);
-  padding:6px 0;border-bottom:4px dashed #0f0;
-  font-size:14px;font-weight:bold;
-}
-.marquee span{
-  display:inline-block;animation:scroll 12s linear infinite;
-  color:#000;text-shadow:0 0 5px #fff;
-}
-.top-bar{
-  text-align:center;padding:12px;border-bottom:3px ridge #f80;
-  background:linear-gradient(135deg,#200,#400,#200);
-}
-.top-bar h1{
-  font-size:28px;animation:blink .6s infinite;
-  background:linear-gradient(90deg,#f0f,#ff0,#0ff);-webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;text-shadow:none;
-  letter-spacing:5px;margin-bottom:4px;
-}
-.top-bar .sub{
-  font-size:11px;color:#f80;animation:glitch .8s infinite;
-}
-.stock-ticker{
-  background:#000;color:#0f0;font-family:monospace;font-size:11px;
-  padding:4px 0;border-bottom:1px solid #0f0;
-}
-.container{
-  max-width:500px;margin:20px auto;padding:16px;
-  background:linear-gradient(135deg,#2a0000,#1a0020);
-  border:4px ridge #f80;border-radius:0;
-  box-shadow:0 0 40px rgba(255,0,0,.4),inset 0 0 40px rgba(0,0,0,.5);
+.win98-window{
+  max-width:540px;margin:16px auto;
+  background:#c0c0c0;
+  border:2px solid;
+  border-color:#ffffff #808080 #808080 #ffffff;
+  box-shadow:1px 1px 0 0 #000;
   position:relative;
 }
-.security-badges{
-  display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;
+.win98-title{
+  background:linear-gradient(90deg,#000080,#1084d0);
+  color:#fff;font-weight:bold;font-size:12px;
+  padding:4px 4px 4px 6px;
+  display:flex;justify-content:space-between;align-items:center;
+  user-select:none;
 }
+.win98-title .title-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win98-title .win98-buttons{display:flex;gap:2px}
+.win98-title button{
+  width:18px;height:18px;font-size:10px;line-height:14px;text-align:center;padding:0;
+  background:#c0c0c0;border:2px solid;border-color:#ffffff #808080 #808080 #ffffff;
+  cursor:pointer;font-weight:bold;font-family:'MS Sans Serif',sans-serif;
+}
+.win98-title button:active{border-color:#808080 #ffffff #ffffff #808080}
+.marquee{
+  overflow:hidden;white-space:nowrap;
+  background:#000080;color:#fff;padding:3px 0;
+  font-size:11px;font-weight:bold;margin-bottom:2px;
+}
+.marquee span{
+  display:inline-block;animation:scroll 25s linear infinite;padding:0 4px;
+}
+
+.stock-ticker{
+  background:#000;color:#0f0;font-family:monospace;font-size:10px;
+  padding:3px 0;border:1px inset #808080;margin:6px;
+}
+.container{
+  padding:8px;
+}
+.security-badges{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;margin-bottom:8px}
 .badge{
-  border:2px groove #f80;padding:4px 8px;font-size:8px;text-align:center;
-  background:#000;color:#ff0;font-family:monospace;text-transform:uppercase;
-  transform:rotate(var(--r,0deg));width:70px;
+  border:2px groove #808080;padding:2px 6px;font-size:8px;text-align:center;
+  background:#fff;color:#000;font-family:monospace;text-transform:uppercase;
+  width:65px;
 }
-.badge:nth-child(1){--r:-2deg}
-.badge:nth-child(2){--r:3deg}
-.badge:nth-child(3){--r:-4deg}
 .account-info{
-  display:grid;grid-template-columns:1fr 1fr;gap:4px;
-  font-size:11px;border:2px dashed #f80;padding:8px;margin-bottom:12px;
-  background:rgba(0,0,0,.6);
+  display:grid;grid-template-columns:1fr 1fr;gap:2px;
+  font-size:10px;border:2px inset #808080;padding:6px;margin-bottom:8px;
+  background:#fff;
 }
-.account-info div{animation:blink var(--b,2s) infinite;}
-.account-info .label{color:#f80;font-size:9px;}
-.account-info .value{color:#0f0;font-weight:bold;}
-.acct-num{font-family:monospace;color:#ff0!important;font-size:16px;animation:hue 3s linear infinite!important;}
-.balance{font-size:22px!important;color:var(--bc,#f00)!important;}
-.card-wrapper{text-align:center;margin-bottom:12px;}
-.card-label{font-size:10px;color:#f80;margin-bottom:4px;animation:blink 1s infinite;}
+.account-info .label{color:#808080;font-size:9px;}
+.account-info .value{color:#000;font-weight:bold;}
+.acct-num{font-family:monospace;color:#00f!important;font-size:14px}
+.balance{font-size:18px!important;color:#f00!important}
+.card-wrapper{text-align:center;margin-bottom:8px}
+.card-label{font-size:10px;color:#000080;margin-bottom:3px;font-weight:bold}
 .card{
-  width:100%;max-width:340px;height:200px;margin:0 auto;
-  background:linear-gradient(135deg,#3a1a00,#5a2a00);
-  border:3px ridge #ff0;border-radius:4px;padding:16px;
-  position:relative;box-shadow:0 0 20px rgba(255,200,0,.3);
-  color:#ff0;font-family:monospace;text-align:left;overflow:hidden;
-  animation:shake .15s infinite;
+  width:100%;max-width:340px;height:190px;margin:0 auto;
+  background:linear-gradient(135deg,#e8dcc8,#d4c4a0);
+  border:2px solid;border-color:#fff #808080 #808080 #fff;padding:12px;
+  position:relative;color:#333;font-family:monospace;text-align:left;overflow:hidden;
 }
 .card .chip{
-  width:40px;height:28px;
+  width:36px;height:24px;
   background:linear-gradient(135deg,#b8960f,#f7d86a);
-  border-radius:3px;margin-bottom:12px;
+  border-radius:2px;margin-bottom:10px;
 }
-.card .number{font-size:18px;letter-spacing:5px;margin-bottom:8px;color:#0f0;}
-.card .info{display:flex;justify-content:space-between;font-size:10px;}
-.card .char{position:absolute;bottom:2px;right:2px;width:70px;height:70px;}
+.card .number{font-size:16px;letter-spacing:4px;margin-bottom:6px;color:#222;}
+.card .info{display:flex;justify-content:space-between;font-size:9px;}
+.card .char{position:absolute;bottom:2px;right:2px;width:60px;height:60px;}
 .card .char svg{width:100%;height:100%;}
 .card .expired-stamp{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);
-  font-size:24px;color:rgba(255,0,0,.5);font-weight:bold;border:3px solid rgba(255,0,0,.5);
-  padding:4px 12px;border-radius:8px;font-family:Arial;
+  font-size:22px;color:rgba(200,0,0,.5);font-weight:bold;border:3px solid rgba(200,0,0,.5);
+  padding:3px 10px;font-family:Arial;
 }
-.rate-ticker{
-  text-align:center;margin:8px 0;padding:4px;
-  background:#000;border:1px solid #0f0;font-size:10px;
+.rate-ticker{text-align:center;margin:6px 0;padding:3px;background:#fff;border:1px inset #808080;font-size:10px}
+.rate-ticker .rate{font-size:14px;font-weight:bold;cursor:pointer;color:#00f;text-decoration:underline}
+.win98-group{
+  border:2px solid;border-color:#808080 #fff #fff #808080;
+  padding:10px;margin:8px 0;background:#c0c0c0;
 }
-.rate-ticker .rate{
-  font-size:16px;font-weight:bold;cursor:pointer;
+.win98-group legend{
+  font-size:11px;font-weight:bold;color:#000080;padding:0 4px;
 }
-.rate-ticker .rate:hover{animation:glitch .1s infinite;color:#f00;}
-.form-section{
-  border:2px dotted #f0f;padding:12px;margin:10px 0;
-  background:rgba(0,0,0,.4);
-}
-.form-section label{
-  display:block;font-size:12px;color:#f80;margin:6px 0 2px;
-}
+.form-section label{display:block;font-size:11px;color:#000;margin:4px 0 2px}
 .form-section input,.form-section select{
-  width:100%;padding:6px 8px;font-family:'Comic Sans MS',cursive;
-  background:#000;color:#0f0;border:2px groove #0f0;font-size:14px;
-  box-sizing:border-box;
+  width:100%;padding:4px 6px;
+  background:#fff;color:#000;border:2px inset #808080;font-size:12px;
+  font-family:'MS Sans Serif',sans-serif;
 }
-.form-section input:focus{
-  border-color:#f0f;box-shadow:0 0 15px #f0f;outline:none;
-}
-.opt-in{font-size:9px;color:#666;margin:8px 0;}
-.opt-in input{width:auto;margin-right:4px;}
-.opt-in a{color:#f0f;}
+.form-section input:focus{outline:1px dotted #000080}
+.checkbox-trap{font-size:11px;color:#000;margin:3px 0}
+.checkbox-trap input{width:auto}
 .hidden-btn-area{
-  text-align:center;margin:10px 0;padding:10px;
-  border:2px dashed #444;background:rgba(0,0,0,.3);
+  text-align:center;margin:8px 0;padding:8px;
+  border:2px inset #808080;background:#c0c0c0;
 }
 .reveal-btn{
-  font-family:'Comic Sans MS',cursive;font-size:11px;
-  padding:8px 16px;background:#444;color:#888;border:2px outset #666;
+  font-family:'MS Sans Serif',sans-serif;font-size:11px;
+  padding:6px 14px;background:#c0c0c0;color:#000;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
   cursor:pointer;
 }
-.reveal-btn:hover{background:#666;color:#aaa;}
-.btn-group{
-  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;
-}
+.reveal-btn:active{border-color:#808080 #fff #fff #808080}
+.btn-group{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:8px}
 .btn-pagar{
-  font-family:'Comic Sans MS',cursive;font-size:18px;
-  padding:12px 32px;background:linear-gradient(45deg,#f0f,#0ff);
-  color:#000;border:4px ridge #ff0;cursor:pointer;font-weight:bold;
-  text-shadow:0 0 5px #fff;animation:hue 2s linear infinite;
-  position:relative;
+  font-family:'MS Sans Serif',sans-serif;font-size:14px;
+  padding:8px 24px;background:#c0c0c0;color:#000;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  cursor:pointer;font-weight:bold;
 }
 .btn-pagar:disabled{
-  background:#333!important;color:#666!important;border-color:#444!important;
-  cursor:not-allow;animation:none;text-shadow:none;
+  background:#c0c0c0!important;color:#808080!important;border-color:#808080 #fff #fff #808080!important;
+  cursor:default;
 }
-.btn-pagar:not(:disabled):hover{animation:shake .05s infinite;}
+.btn-pagar:not(:disabled):active{border-color:#808080 #fff #fff #808080}
 .btn-donar{
-  font-family:'Comic Sans MS',cursive;font-size:12px;
-  padding:8px 20px;background:linear-gradient(135deg,#800,#400);
-  color:#ff0;border:2px ridge #f80;cursor:pointer;
+  font-family:'MS Sans Serif',sans-serif;font-size:11px;
+  padding:6px 16px;background:#c0c0c0;color:#000;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  cursor:pointer;
 }
-.btn-donar:hover{background:#a00;}
-.status{text-align:center;font-size:10px;color:#666;margin:6px 0;min-height:1.2em;}
-.msg{text-align:center;font-size:14px;margin:8px 0;min-height:1.5em;font-weight:bold;}
+.btn-donar:active{border-color:#808080 #fff #fff #808080}
+.status{text-align:center;font-size:10px;color:#808080;margin:4px 0;min-height:1.2em}
+.msg{text-align:center;font-size:12px;margin:6px 0;min-height:1.5em;font-weight:bold}
 .fake-popup{
   display:none;position:fixed;top:30%;left:50%;transform:translate(-50%,-50%);
   max-width:320px;width:90%;z-index:200;
-  background:linear-gradient(135deg,#ff0,#f80);border:4px ridge #f00;
-  padding:20px;text-align:center;font-family:Arial;
+  background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:16px;text-align:center;
+  box-shadow:2px 2px 0 0 #000;
 }
-.fake-popup.active{display:block;}
-.fake-popup h2{color:#a00;font-size:16px;margin-bottom:8px;}
-.fake-popup p{color:#000;font-size:12px;margin-bottom:12px;}
+.fake-popup.active{display:block}
+.fake-popup h2{color:#000080;font-size:13px;margin-bottom:8px}
+.fake-popup p{color:#000;font-size:11px;margin-bottom:10px}
 .fake-popup button{
-  background:#a00;color:#fff;border:none;padding:6px 20px;
-  font-size:12px;cursor:pointer;font-family:Arial;
+  background:#c0c0c0;color:#000;font-family:'MS Sans Serif',sans-serif;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:4px 16px;font-size:11px;cursor:pointer;
 }
+.fake-popup button:active{border-color:#808080 #fff #fff #808080}
 .modal-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
   justify-content:center;align-items:center;z-index:150;
 }
-.modal-overlay.active{display:flex;}
+.modal-overlay.active{display:flex}
 .modal{
-  background:linear-gradient(135deg,#1a0000,#2a0020);
-  border:4px ridge #f80;padding:24px;max-width:380px;width:90%;
-  text-align:center;box-shadow:0 0 60px rgba(255,0,0,.5);
+  background:#c0c0c0;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:16px;max-width:380px;width:90%;text-align:center;
+  box-shadow:2px 2px 0 0 #000;
 }
-.modal p{margin:12px 0;font-size:13px;color:#ff0;line-height:1.5;font-family:'Comic Sans MS',cursive;}
-.modal-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;}
+.modal p{margin:10px 0;font-size:11px;color:#000;line-height:1.4;font-family:'MS Sans Serif',sans-serif}
+.modal-buttons{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}
 .modal-buttons button{
-  font-family:'Comic Sans MS',cursive;padding:8px 20px;font-size:13px;
-  border:2px ridge;cursor:pointer;font-weight:bold;
+  font-family:'MS Sans Serif',sans-serif;padding:4px 20px;font-size:11px;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  cursor:pointer;background:#c0c0c0;color:#000;min-width:70px;
 }
-.btn-si{background:#080;color:#0f0;border-color:#0f0!important;}
-.btn-no{background:#800;color:#f00;border-color:#f00!important;}
+.modal-buttons button:active{border-color:#808080 #fff #fff #808080}
+.btn-si{background:#c0c0c0!important;color:#000!important}
+.btn-no{background:#c0c0c0!important;color:#000!important}
 .bsod{
   display:none;position:fixed;inset:0;z-index:999;
-  background:#00a;color:#fff;font-family:'Lucida Console',monospace;
-  padding:40px 20px;font-size:13px;line-height:1.5;
+  background:#0000a0;color:#fff;font-family:'Lucida Console',monospace;
+  padding:40px 20px;font-size:12px;line-height:1.5;
 }
-.bsod.active{display:block;}
-.bsod h1{font-size:24px;margin-bottom:20px;}
-.bsod .cursor{animation:blink .5s infinite;background:#aaa;display:inline-block;width:8px;height:14px;}
-.loading-bar{
-  position:fixed;bottom:0;left:0;right:0;height:4px;z-index:300;
-  background:#000;
-}
-.loading-bar .fill{
-  height:100%;width:0;background:linear-gradient(90deg,#0f0,#ff0,#f0f,#0ff);
-  animation:progress 6s linear infinite;
-}
+.bsod.active{display:block}
+.bsod h1{font-size:20px;margin-bottom:20px}
+.bsod .cursor{animation:blink .5s infinite;background:#aaa;display:inline-block;width:8px;height:14px}
+.loading-bar{position:fixed;bottom:0;left:0;right:0;height:3px;z-index:300;background:#000}
+.loading-bar .fill{height:100%;width:0;background:#000080;animation:progress 6s linear infinite}
 .footer{
-  text-align:center;padding:16px;font-size:10px;color:#444;
-  border-top:1px solid #333;margin-top:20px;
+  text-align:center;padding:8px;
+  background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
+  margin:8px 0 0;
 }
 .footer .hit-counter{
-  display:inline-block;background:#000;padding:2px 6px;font-family:monospace;
-  color:#0f0;border:1px inset #0f0;margin:4px;
+  display:inline-block;background:#fff;padding:1px 4px;font-family:monospace;
+  color:#000;border:1px inset #808080;margin:3px;
 }
 .popup-ad{
   display:none;position:fixed;bottom:20px;right:20px;z-index:180;
-  width:200px;background:linear-gradient(135deg,#00f,#a0f);
-  border:3px ridge #ff0;padding:12px;text-align:center;font-family:Arial;
+  width:200px;background:#c0c0c0;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:10px;text-align:center;
+  box-shadow:2px 2px 0 0 #000;
 }
-.popup-ad.active{display:block;}
-.popup-ad h3{color:#ff0;font-size:12px;margin-bottom:4px;}
-.popup-ad p{color:#fff;font-size:10px;margin-bottom:6px;}
+.popup-ad.active{display:block}
+.popup-ad h3{color:#000080;font-size:11px;margin-bottom:3px}
+.popup-ad p{color:#000;font-size:10px;margin-bottom:5px}
 .popup-ad button{
-  background:#ff0;color:#00f;border:none;padding:4px 12px;
-  font-size:10px;cursor:pointer;font-weight:bold;
+  background:#c0c0c0;color:#000;font-family:'MS Sans Serif',sans-serif;
+  border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:3px 10px;font-size:10px;cursor:pointer;
 }
-.checkbox-trap{font-size:10px;color:#888;margin:4px 0;}
-.checkbox-trap input{width:auto;}
-.side-ad{position:fixed;width:120px;z-index:100;font-family:Arial;font-size:9px;text-align:center;border:2px ridge #ff0;padding:6px;cursor:pointer;}
-.side-ad.left{left:4px;}
-.side-ad.right{right:4px;}
-.side-ad img{width:80px;height:60px;display:block;margin:0 auto 4px;image-rendering:pixelated;background:linear-gradient(135deg,#f0f,#ff0,#0ff);animation:hue 1s linear infinite;}
-.side-ad .blink{animation:blink .5s infinite;font-weight:bold;}
+.popup-ad button:active{border-color:#808080 #fff #fff #808080}
+.side-ad{position:fixed;width:110px;z-index:100;font-family:'MS Sans Serif',sans-serif;font-size:9px;text-align:center;border:2px solid;border-color:#fff #808080 #808080 #fff;padding:4px;cursor:pointer;background:#c0c0c0;}
+.side-ad.left{left:2px;}
+.side-ad.right{right:2px;}
+.side-ad .blink{animation:blink .4s infinite;font-weight:bold;color:#000080;}
+.win98-statusbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:3px 6px;background:#c0c0c0;
+  border:2px solid;border-color:#808080 #fff #fff #808080;
+  margin-top:6px;font-size:10px;
+}
 </style>
 </head>
 <body>
@@ -250,11 +242,15 @@ body{
 <div class="side-ad right" style="top:570px"><div style="background:#f80;color:#000;padding:2px" class="blink">🍕 PIZZA GRATIS 🍕</div><div style="color:#fff;background:#080;padding:2px">Sólo por hoy!</div><div style="color:#ff0;font-size:7px">Válido en la Antártida</div></div>
 <div class="side-ad right" style="top:720px"><div style="background:#f0f;color:#fff;padding:2px">💍 MATRIMONIO 💍</div><div style="color:#ff0;background:#000;padding:2px">Casamiento express</div><div style="color:#0ff;font-size:7px">Cases a su mascota con la del vecino</div></div>
 
-<div class="top-bar">
-  <h1>🏦 BANCO DEL MAL S.A.</h1>
-  <div class="sub">— Banca Online Desde 1847 —</div>
-  <div class="sub" style="font-size:9px;color:#888;-webkit-text-fill-color:#888;animation:none">Miembro de la Asociación de Bancos Ficticios</div>
-</div>
+<div class="win98-window">
+  <div class="win98-title">
+    <span class="title-text">🏦 BancaOnline 98 — Banco del Mal S.A.</span>
+    <span class="win98-buttons">
+      <button onclick="this.parentElement.parentElement.nextElementSibling.style.display='none'">_</button>
+      <button onclick="this.parentElement.parentElement.nextElementSibling.style.display=''">□</button>
+      <button onclick="showBsod()">✕</button>
+    </span>
+  </div>
 
 <div class="stock-ticker">
   📈 BACA: -∞ | 🐂 BULL: 0.00% | 👻 FANTASMA: ▼ 0.00% | 🏚️ BCRA: ■■■■■
@@ -263,65 +259,74 @@ body{
 <div class="container">
 
   <div class="security-badges">
-    <div class="badge" style="color:#0f0">✦ SSL 40-BIT ✦<br>SEGURO</div>
-    <div class="badge" style="color:#0ff">✓ VERISIGN<br>CONFIANZA</div>
-    <div class="badge" style="color:#f0f">★ NORTON<br>SECURED 98</div>
-    <div class="badge" style="color:#ff0">☠ HACKER<br>SAFE</div>
-    <div class="badge" style="color:#f80">© MCP<br>CERTIFICADO</div>
+    <div class="badge">✦ SSL 40-BIT ✦<br>SEGURO</div>
+    <div class="badge">✓ VERISIGN<br>CONFIANZA</div>
+    <div class="badge">★ NORTON<br>SECURED 98</div>
+    <div class="badge">☠ HACKER<br>SAFE</div>
+    <div class="badge">© MCP<br>CERTIFICADO</div>
   </div>
 
-  <div class="account-info">
-    <div><span class="label">TITULAR</span><br><span class="value">GOKU S.</span></div>
-    <div><span class="label">TIPO</span><br><span class="value">PLAN INFIERNO</span></div>
-    <div><span class="label">CUENTA</span><br><span class="value acct-num" id="acctNum"></span></div>
-    <div><span class="label">SALDO DISPONIBLE</span><br><span class="value balance" id="balance">-$0.01</span></div>
-    <div style="grid-column:1/3"><span class="label">TASA DE INTERÉS</span><br><span class="value"><span class="rate" id="rateTicker">0.0001% — 9999% ANUAL</span> (sujeta a cambio cada 5 seg)</span></div>
-  </div>
-
-  <div class="card-wrapper">
-    <div class="card-label">💳 TARJETA PRINCIPAL — EXPIRADA</div>
-    <div class="card">
-      <div class="chip"></div>
-      <div class="number">0000 0000 0000 0000</div>
-      <div class="info"><span>GOKU S.</span><span>01/99</span></div>
-      <div class="char">
-        <svg viewBox="0 0 100 100">
-          <polygon points="50,3 56,25 67,13 62,30 78,24 70,38 83,42 67,52 72,63 56,56 50,72 44,56 28,63 33,52 17,42 30,38 22,24 38,30 33,13 44,25" fill="#222"/>
-          <circle cx="50" cy="50" r="22" fill="#f5d0a9"/>
-          <circle cx="42" cy="46" r="5" fill="#fff"/><circle cx="58" cy="46" r="5" fill="#fff"/>
-          <circle cx="44" cy="47" r="2.5" fill="#222"/><circle cx="56" cy="47" r="2.5" fill="#222"/>
-          <path d="M46 56Q50 61 54 56" fill="none" stroke="#222" stroke-width="1.8"/>
-          <rect x="33" y="66" width="34" height="28" rx="4" fill="#f07c20"/>
-          <rect x="33" y="77" width="34" height="5" fill="#1a5276"/>
-          <rect x="33" y="66" width="34" height="5" fill="#c0392b"/>
-        </svg>
-      </div>
-      <div class="expired-stamp">VENCIDA</div>
+  <fieldset class="win98-group">
+    <legend>👤 Datos de la Cuenta</legend>
+    <div class="account-info">
+      <div><span class="label">TITULAR</span><br><span class="value">GOKU S.</span></div>
+      <div><span class="label">TIPO</span><br><span class="value">PLAN PREMIUM</span></div>
+      <div><span class="label">CUENTA</span><br><span class="value acct-num" id="acctNum"></span></div>
+      <div><span class="label">SALDO DISPONIBLE</span><br><span class="value balance" id="balance">-$0.01</span></div>
+      <div style="grid-column:1/3"><span class="label">TASA DE INTERÉS</span><br><span class="value"><span class="rate" id="rateTicker">0.0001% — 9999% ANUAL</span> (sujeta a cambio cada 5 seg)</span></div>
     </div>
-    <div style="font-size:8px;color:#666;margin-top:2px">★ Débito Internacional — No válida en este universo ★</div>
-  </div>
+  </fieldset>
 
-  <div class="form-section">
-    <label>💰 MONTO A PAGAR</label>
-    <input type="text" id="amount" placeholder="escribí el monto en letras" oninput="this.value=this.value.replace(/[^a-zA-ZáéíóúñüÁÉÍÓÚÑÜ ]/g,'')">
-    <label style="font-size:9px;color:#666">✱ Cargo por conveniencia: $<span id="feeDisplay">99.99</span> + 1 riñón (usado)</label>
-    
-    <label>📋 MOTIVO DEL PAGO</label>
-    <select id="motive">
-      <option>No sé</option>
-      <option>Me obligaron</option>
-      <option>Fue un error</option>
-      <option>Ayuda</option>
-      <option>La página no me deja salir</option>
-    </select>
+  <fieldset class="win98-group">
+    <legend>💳 Tarjeta</legend>
+    <div class="card-wrapper">
+      <div class="card-label">TARJETA PRINCIPAL — EXPIRADA</div>
+      <div class="card">
+        <div class="chip"></div>
+        <div class="number">0000 0000 0000 0000</div>
+        <div class="info"><span>GOKU S.</span><span>01/99</span></div>
+        <div class="char">
+          <svg viewBox="0 0 100 100">
+            <polygon points="50,3 56,25 67,13 62,30 78,24 70,38 83,42 67,52 72,63 56,56 50,72 44,56 28,63 33,52 17,42 30,38 22,24 38,30 33,13 44,25" fill="#222"/>
+            <circle cx="50" cy="50" r="22" fill="#f5d0a9"/>
+            <circle cx="42" cy="46" r="5" fill="#fff"/><circle cx="58" cy="46" r="5" fill="#fff"/>
+            <circle cx="44" cy="47" r="2.5" fill="#222"/><circle cx="56" cy="47" r="2.5" fill="#222"/>
+            <path d="M46 56Q50 61 54 56" fill="none" stroke="#222" stroke-width="1.8"/>
+            <rect x="33" y="66" width="34" height="28" rx="4" fill="#f07c20"/>
+            <rect x="33" y="77" width="34" height="5" fill="#1a5276"/>
+            <rect x="33" y="66" width="34" height="5" fill="#c0392b"/>
+          </svg>
+        </div>
+        <div class="expired-stamp">VENCIDA</div>
+      </div>
+      <div style="font-size:8px;color:#808080;margin-top:2px">★ Débito Internacional — No válida en este universo ★</div>
+    </div>
+  </fieldset>
 
-    <div class="checkbox-trap"><input type="checkbox" id="tc" onchange="document.getElementById('revealBtn').disabled=this.checked"> No acepto los <a href="#" onclick="showTc(event)">Términos y Condiciones</a> (3,847 páginas)</div>
-    <div class="checkbox-trap"><input type="checkbox" id="spam"> Acepto recibir 5,000 emails diarios de ofertas imperdibles</div>
-    <div class="checkbox-trap"><input type="checkbox" id="soul" checked disabled> Cedo mi colección de figuritas al banco (obligatorio)</div>
-  </div>
+  <fieldset class="win98-group">
+    <legend>💰 Pago</legend>
+    <div class="form-section">
+      <label>MONTO A PAGAR</label>
+      <input type="text" id="amount" placeholder="escribí el monto en letras" oninput="this.value=this.value.replace(/[^a-zA-ZáéíóúñüÁÉÍÓÚÑÜ ]/g,'')">
+      <label style="font-size:9px;color:#808080">✱ Cargo por conveniencia: $<span id="feeDisplay">99.99</span> + 1 riñón (usado)</label>
+      
+      <label>MOTIVO DEL PAGO</label>
+      <select id="motive">
+        <option>No sé</option>
+        <option>Me obligaron</option>
+        <option>Fue un error</option>
+        <option>Ayuda</option>
+        <option>La página no me deja salir</option>
+      </select>
+
+      <div class="checkbox-trap"><input type="checkbox" id="tc" onchange="document.getElementById('revealBtn').disabled=this.checked"> No acepto los <a href="#" onclick="showTc(event)">Términos y Condiciones</a> (3,847 páginas)</div>
+      <div class="checkbox-trap"><input type="checkbox" id="spam"> Acepto recibir 5,000 emails diarios de ofertas imperdibles</div>
+      <div class="checkbox-trap"><input type="checkbox" id="soul" checked disabled> Cedo mi colección de figuritas al banco (obligatorio)</div>
+    </div>
+  </fieldset>
 
   <div class="hidden-btn-area" id="hiddenArea">
-    <div style="font-size:9px;color:#444;margin-bottom:6px">🔒 ÁREA SEGURA DE PAGO 🔒</div>
+    <div style="font-size:9px;color:#808080;margin-bottom:4px">🔒 ÁREA SEGURA DE PAGO 🔒</div>
     <button class="reveal-btn" id="revealBtn">HAGA CLIC PARA REVELAR BOTÓN DE PAGO</button>
     <div id="pagarContainer" style="display:none;margin-top:8px">
       <div class="btn-group">
@@ -333,9 +338,16 @@ body{
     </div>
   </div>
 
-  <div style="text-align:center;margin-top:8px">
-    <div style="font-size:7px;color:#333">Al hacer clic en Pagar acepta que su primogénito sea utilizado como colateral</div>
+  <div style="text-align:center;margin-top:6px">
+    <div style="font-size:7px;color:#808080">Al hacer clic en Pagar acepta que su primogénito sea utilizado como colateral</div>
   </div>
+
+</div>
+
+<div class="win98-statusbar">
+  <span id="statusBarLeft">🔒 Conexión segura (no)</span>
+  <span id="timeCounter" style="font-size:10px;">⏱️ 0s perdidos</span>
+</div>
 
 </div>
 
@@ -374,15 +386,14 @@ body{
   <div style="margin:4px 0">© 1998-2003 Banco Nacional del Trámite S.A. — Todos los derechos reservados (no nos hacemos responsables)</div>
   <div style="font-size:8px">Optimizado para Netscape Navigator 4.0 — Mejor visto a 640×480</div>
   <div style="font-size:8px">Hosting: GeoCities — Free web hosting since 1995</div>
-  <div id="timeCounter" style="font-size:9px;color:#333;margin-top:6px">⏱️ Llevás 0 segundos de tu vida acá. No los vas a recuperar.</div>
 </div>
 
 <!-- T&C popup (inline) -->
 <div class="modal-overlay" id="tcModal">
   <div class="modal" style="max-height:80vh;max-width:90%;overflow:hidden;text-align:left;padding:0">
     <div id="tcScroll" style="overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:24px;scroll-behavior:smooth">
-      <p style="display:inline-block;font-family:Arial;font-size:14px;color:#fff;line-height:1.6;vertical-align:top">
-        <strong style="color:#f80">TÉRMINOS Y CONDICIONES</strong> 1. El banco no se hace responsable por pérdidas, robos, secuestros de datos, maldiciones, plagas bíblicas, invasiones alienígenas, o cualquier evento fuera del control de nuestro primo Juan que maneja el sistema. 2. Al aceptar estos términos, el usuario acepta que su historial de búsqueda de Google pasa a ser propiedad del Banco Nacional del Trámite S.A. por tiempo indefinido (o hasta que el usuario le gane al CEO en una pelea de Dragon Ball Z, lo que ocurra primero). 3. La tasa de interés puede cambiar sin previo aviso, inclusive mientras el usuario está leyendo esta cláusula. Acaba de cambiar. Felicidades. 4. Cualquier disputa será resuelta mediante una pelea de gallos virtuales. El banco siempre usará un gallo con Super Saiyan 3. 5. El usuario autoriza al banco a usar su foto de perfil de redes sociales para fines decorativos en el lobby del banco. 6. En caso de error del sistema, el banco se quedará con la diferencia. Es política de la empresa. 7. El botón "Pagar" en realidad ejecuta una donación. El botón "Donar" también. Todos los botones donan. Usted está donando ahora mismo. 8. Leer estos términos constituye aceptación automática. Si llegó hasta acá, bienvenido a la familia. 9. El banco se reserva el derecho de inventar más cláusulas en cualquier momento. 10. Esta es la cláusula 10. No hay cláusula 10. Nunca la hubo. <span style="color:#f80">— Al hacer clic en "Aceptar" reconoce que leyó todo esto (mentira, nadie lee los términos) —</span>
+      <p style="display:inline-block;font-family:'MS Sans Serif',sans-serif;font-size:14px;color:#000;line-height:1.6;vertical-align:top">
+        <strong style="color:#000080">TÉRMINOS Y CONDICIONES</strong> 1. El banco no se hace responsable por pérdidas, robos, secuestros de datos, maldiciones, plagas bíblicas, invasiones alienígenas, o cualquier evento fuera del control de nuestro primo Juan que maneja el sistema. 2. Al aceptar estos términos, el usuario acepta que su historial de búsqueda de Google pasa a ser propiedad del Banco Nacional del Trámite S.A. por tiempo indefinido (o hasta que el usuario le gane al CEO en una pelea de Dragon Ball Z, lo que ocurra primero). 3. La tasa de interés puede cambiar sin previo aviso, inclusive mientras el usuario está leyendo esta cláusula. Acaba de cambiar. Felicidades. 4. Cualquier disputa será resuelta mediante una pelea de gallos virtuales. El banco siempre usará un gallo con Super Saiyan 3. 5. El usuario autoriza al banco a usar su foto de perfil de redes sociales para fines decorativos en el lobby del banco. 6. En caso de error del sistema, el banco se quedará con la diferencia. Es política de la empresa. 7. El botón "Pagar" en realidad ejecuta una donación. El botón "Donar" también. Todos los botones donan. Usted está donando ahora mismo. 8. Leer estos términos constituye aceptación automática. Si llegó hasta acá, bienvenido a la familia. 9. El banco se reserva el derecho de inventar más cláusulas en cualquier momento. 10. Esta es la cláusula 10. No hay cláusula 10. Nunca la hubo. <span style="color:#f80">— Al hacer clic en "Aceptar" reconoce que leyó todo esto (mentira, nadie lee los términos) —</span>
       </p>
       <div class="modal-buttons" style="display:inline-block;vertical-align:top;margin:20px 0 0 40px"><button class="btn-si" onclick="closeTc()">ACEPTAR (no hay otra opción)</button></div>
     </div>
