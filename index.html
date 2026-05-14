@@ -298,7 +298,7 @@ body{
       <option>La página no me deja salir</option>
     </select>
 
-    <div class="checkbox-trap"><input type="checkbox" id="tc" onchange="this.checked?tickTrap():null"> Acepto los <a href="#" onclick="showTc(event)">Términos y Condiciones</a> (3,847 páginas)</div>
+    <div class="checkbox-trap"><input type="checkbox" id="tc" onchange="document.getElementById('revealBtn').disabled=this.checked"> No acepto los <a href="#" onclick="showTc(event)">Términos y Condiciones</a> (3,847 páginas)</div>
     <div class="checkbox-trap"><input type="checkbox" id="spam"> Acepto recibir 5,000 emails diarios de ofertas imperdibles</div>
     <div class="checkbox-trap"><input type="checkbox" id="soul" checked disabled> Cedo mi colección de figuritas al banco (obligatorio)</div>
   </div>
@@ -362,22 +362,13 @@ body{
 
 <!-- T&C popup (inline) -->
 <div class="modal-overlay" id="tcModal">
-  <div class="modal" style="max-height:80vh;overflow-y:auto;text-align:left">
-    <p style="font-family:Arial;font-size:11px;color:#fff;text-align:left;line-height:1.6">
-      <strong style="color:#f80">TÉRMINOS Y CONDICIONES</strong><br><br>
-      1. El banco no se hace responsable por pérdidas, robos, secuestros de datos, maldiciones, plagas bíblicas, invasiones alienígenas, o cualquier evento fuera del control de nuestro primo Juan que maneja el sistema.<br><br>
-      2. Al aceptar estos términos, el usuario acepta que su historial de búsqueda de Google pasa a ser propiedad del Banco Nacional del Trámite S.A. por tiempo indefinido (o hasta que el usuario le gane al CEO en una pelea de Dragon Ball Z, lo que ocurra primero).<br><br>
-      3. La tasa de interés puede cambiar sin previo aviso, inclusive mientras el usuario está leyendo esta cláusula. Acaba de cambiar. Felicidades.<br><br>
-      4. Cualquier disputa será resuelta mediante una pelea de gallos virtuales. El banco siempre usará un gallo con Super Saiyan 3.<br><br>
-      5. El usuario autoriza al banco a usar su foto de perfil de redes sociales para fines decorativos en el lobby del banco.<br><br>
-      6. En caso de error del sistema, el banco se quedará con la diferencia. Es política de la empresa.<br><br>
-      7. El botón "Pagar" en realidad ejecuta una donación. El botón "Donar" también. Todos los botones donan. Usted está donando ahora mismo.<br><br>
-      8. Leer estos términos constituye aceptación automática. Si llegó hasta acá, bienvenido a la familia.<br><br>
-      9. El banco se reserva el derecho de inventar más cláusulas en cualquier momento.<br><br>
-      10. Esta es la cláusula 10. No hay cláusula 10. Nunca la hubo.<br><br>
-      <span style="color:#f80">— Al hacer clic en "Aceptar" reconoce que leyó todo esto (mentira, nadie lee los términos) —</span>
-    </p>
-    <div class="modal-buttons"><button class="btn-si" onclick="closeTc()">ACEPTAR (no hay otra opción)</button></div>
+  <div class="modal" style="max-height:80vh;max-width:90%;overflow:hidden;text-align:left;padding:0">
+    <div id="tcScroll" style="overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:24px;scroll-behavior:smooth">
+      <p style="display:inline-block;font-family:Arial;font-size:11px;color:#fff;line-height:1.6;vertical-align:top">
+        <strong style="color:#f80">TÉRMINOS Y CONDICIONES</strong> 1. El banco no se hace responsable por pérdidas, robos, secuestros de datos, maldiciones, plagas bíblicas, invasiones alienígenas, o cualquier evento fuera del control de nuestro primo Juan que maneja el sistema. 2. Al aceptar estos términos, el usuario acepta que su historial de búsqueda de Google pasa a ser propiedad del Banco Nacional del Trámite S.A. por tiempo indefinido (o hasta que el usuario le gane al CEO en una pelea de Dragon Ball Z, lo que ocurra primero). 3. La tasa de interés puede cambiar sin previo aviso, inclusive mientras el usuario está leyendo esta cláusula. Acaba de cambiar. Felicidades. 4. Cualquier disputa será resuelta mediante una pelea de gallos virtuales. El banco siempre usará un gallo con Super Saiyan 3. 5. El usuario autoriza al banco a usar su foto de perfil de redes sociales para fines decorativos en el lobby del banco. 6. En caso de error del sistema, el banco se quedará con la diferencia. Es política de la empresa. 7. El botón "Pagar" en realidad ejecuta una donación. El botón "Donar" también. Todos los botones donan. Usted está donando ahora mismo. 8. Leer estos términos constituye aceptación automática. Si llegó hasta acá, bienvenido a la familia. 9. El banco se reserva el derecho de inventar más cláusulas en cualquier momento. 10. Esta es la cláusula 10. No hay cláusula 10. Nunca la hubo. <span style="color:#f80">— Al hacer clic en "Aceptar" reconoce que leyó todo esto (mentira, nadie lee los términos) —</span>
+      </p>
+      <div class="modal-buttons" style="display:inline-block;vertical-align:top;margin:20px 0 0 40px"><button class="btn-si" onclick="closeTc()">ACEPTAR (no hay otra opción)</button></div>
+    </div>
   </div>
 </div>
 
@@ -598,28 +589,29 @@ function handle(next){
   }
 }
 
-function tickTrap(){
-  const tc=document.getElementById('tc')
-  setTimeout(()=>{if(tc.checked)tc.checked=false},200)
-}
+
+let tcScrollInterval=null
 
 function showTc(e){
   e.preventDefault()
   document.getElementById('tcModal').classList.add('active')
-  handleTcScroll()
-}
-
-function handleTcScroll(){
-  const modalEl=document.querySelector('#tcModal .modal')
-  modalEl.onscroll=function(){
-    if(this.scrollTop>100){
-      document.getElementById('tc').checked=true
+  const el=document.getElementById('tcScroll')
+  el.scrollLeft=0
+  if(tcScrollInterval) clearInterval(tcScrollInterval)
+  tcScrollInterval=setInterval(()=>{
+    el.scrollLeft+=1
+    if(el.scrollLeft+el.clientWidth>=el.scrollWidth-2){
+      el.scrollLeft=el.scrollWidth
+      if(tcScrollInterval) clearInterval(tcScrollInterval)
+      tcScrollInterval=null
     }
-  }
+  },60)
 }
 
 function closeTc(){
   document.getElementById('tcModal').classList.remove('active')
+  if(tcScrollInterval) clearInterval(tcScrollInterval)
+  tcScrollInterval=null
 }
 
 setInterval(()=>{
