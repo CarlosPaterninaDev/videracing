@@ -199,6 +199,32 @@ body{
   color:#000;border:1px inset #808080;margin:3px;
 }
 
+#pinball{
+  position:fixed;top:44px;left:2px;z-index:99;
+  background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
+  padding:4px;user-select:none;width:196px;
+  box-shadow:1px 1px 0 0 #000;
+}
+#pinball-title{
+  background:linear-gradient(90deg,#000080,#1084d0);color:#fff;
+  font-size:10px;font-weight:bold;padding:2px 4px;margin-bottom:3px;
+  display:flex;justify-content:space-between;
+}
+#pinball-title button{
+  width:14px;height:14px;font-size:7px;line-height:10px;padding:0;
+  background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
+  cursor:pointer;font-family:'MS Sans Serif',sans-serif;
+}
+#pinballScore{
+  background:#000;color:#f00;font-family:'Lucida Console',monospace;
+  font-size:12px;font-weight:bold;padding:1px 4px;letter-spacing:2px;
+  border:1px inset #808080;text-align:right;margin-bottom:3px;
+}
+#pinballCanvas{
+  border:2px inset #808080;display:block;margin:0 auto;background:#0a0a2e;
+  cursor:pointer;
+}
+#pinball canvas{display:block;}
 #minesweeper{
   position:fixed;top:44px;right:2px;z-index:99;
   background:#c0c0c0;border:2px solid;border-color:#fff #808080 #808080 #fff;
@@ -263,6 +289,12 @@ body{
 </style>
 </head>
 <body>
+
+<div id="pinball">
+  <div id="pinball-title"><span>🕹️ Pinball '98</span><button onclick="this.parentElement.parentElement.style.display='none'">✕</button></div>
+  <div id="pinballScore">0000</div>
+  <canvas id="pinballCanvas" width="180" height="300"></canvas>
+</div>
 
 <div id="minesweeper">
   <div id="ms-title"><span>🔍 Buscaminas</span><button onclick="this.parentElement.parentElement.style.display='none'">✕</button></div>
@@ -839,6 +871,211 @@ function msRightClick(r,c){
 
 msFace.addEventListener('click',msInit)
 msInit()
+
+// Pinball
+const pbCanvas=document.getElementById('pinballCanvas')
+const pbCtx=pbCanvas.getContext('2d')
+const pbScoreEl=document.getElementById('pinballScore')
+const W=180,H=300
+let pbBall,pbFlippers,pbBumpers,pbScore,pbRunning,pbAnim,pbLives
+
+function pbInit(){
+  pbBall={x:90,y:40,vx:0,vy:2,radius:5}
+  pbFlippers={
+    left:{x:62,y:278,angle:-0.6,length:30,up:false},
+    right:{x:118,y:278,angle:0.6,length:30,up:false}
+  }
+  pbBumpers=[
+    {x:50,y:100,r:12,hit:false},
+    {x:90,y:80,r:14,hit:false},
+    {x:130,y:100,r:12,hit:false},
+    {x:70,y:150,r:10,hit:false},
+    {x:110,y:150,r:10,hit:false},
+    {x:90,y:190,r:16,hit:false}
+  ]
+  pbScore=0
+  pbLives=3
+  pbRunning=true
+  pbScoreEl.textContent='0000'
+  if(pbAnim) cancelAnimationFrame(pbAnim)
+  pbAnim=requestAnimationFrame(pbUpdate)
+}
+
+function pbUpdate(){
+  if(!pbRunning) return
+  const dt=1
+  pbBall.x+=pbBall.vx*dt
+  pbBall.y+=pbBall.vy*dt
+  pbBall.vy+=0.15
+
+  // walls
+  if(pbBall.x-pbBall.radius<0){pbBall.x=pbBall.radius;pbBall.vx*=-0.7}
+  if(pbBall.x+pbBall.radius>W){pbBall.x=W-pbBall.radius;pbBall.vx*=-0.7}
+  if(pbBall.y-pbBall.radius<0){pbBall.y=pbBall.radius;pbBall.vy*=-0.7}
+
+  // flipper collision
+  for(const key of ['left','right']){
+    const f=pbFlippers[key]
+    const angle=f.up?key==='left'?-0.9:0.9:key==='left'?-0.2:0.2
+    const fx=f.x+Math.cos(angle)*f.length/2
+    const fy=f.y+Math.sin(angle)*f.length/2
+    const dx=pbBall.x-fx,dy=pbBall.y-fy
+    const dist=Math.sqrt(dx*dx+dy*dy)
+    if(dist<pbBall.radius+f.length/2+5){
+      const nx=dx/dist||0,ny=dy/dist||0
+      pbBall.vx=nx*4
+      pbBall.vy=ny*4
+      pbBall.x=fx+nx*(pbBall.radius+f.length/2+5)
+      pbBall.y=fy+ny*(pbBall.radius+f.length/2+5)
+    }
+  }
+
+  // bumpers
+  for(const b of pbBumpers){
+    const dx=pbBall.x-b.x,dy=pbBall.y-b.y
+    const dist=Math.sqrt(dx*dx+dy*dy)
+    if(dist<pbBall.radius+b.r){
+      b.hit=true
+      const nx=dx/dist||0,ny=dy/dist||0
+      const power=6
+      pbBall.vx=nx*power
+      pbBall.vy=ny*power
+      pbBall.x=b.x+nx*(pbBall.radius+b.r)
+      pbBall.y=b.y+ny*(pbBall.radius+b.r)
+      pbScore+=100
+      pbScoreEl.textContent=String(pbScore).padStart(4,'0')
+      setTimeout(()=>{b.hit=false},200)
+    }
+  }
+
+  // ball launch
+  if(pbBall.y+pbBall.radius>H-5&&pbBall.x>80&&pbBall.x<100){
+    pbBall.vy=-Math.random()*3-2
+    pbBall.vx=(Math.random()-0.5)*2
+  }
+
+  // drain
+  if(pbBall.y+pbBall.radius>H+10){
+    pbLives--
+    if(pbLives<=0){
+      pbRunning=false
+      pbDraw()
+      return
+    }
+    pbBall={x:90,y:40,vx:0,vy:2,radius:5}
+  }
+
+  pbDraw()
+  pbAnim=requestAnimationFrame(pbUpdate)
+}
+
+function pbDraw(){
+  pbCtx.clearRect(0,0,W,H)
+
+  // walls
+  pbCtx.strokeStyle='#4488ff'
+  pbCtx.lineWidth=3
+  pbCtx.strokeRect(2,2,W-4,H-4)
+
+  // lane guides
+  pbCtx.strokeStyle='#2244aa'
+  pbCtx.lineWidth=1
+  pbCtx.setLineDash([3,5])
+  pbCtx.beginPath()
+  pbCtx.moveTo(30,0);pbCtx.lineTo(30,250)
+  pbCtx.moveTo(W-30,0);pbCtx.lineTo(W-30,250)
+  pbCtx.stroke()
+  pbCtx.setLineDash([])
+
+  // bumpers
+  for(const b of pbBumpers){
+    pbCtx.beginPath()
+    pbCtx.arc(b.x,b.y,b.r,0,Math.PI*2)
+    if(b.hit){
+      pbCtx.fillStyle='#ffff00'
+      pbCtx.shadowBlur=15;pbCtx.shadowColor='#ff0'
+    }else{
+      pbCtx.fillStyle='#ff4444'
+      pbCtx.shadowBlur=0
+    }
+    pbCtx.fill()
+    pbCtx.shadowBlur=0
+    pbCtx.strokeStyle='#ffaa00'
+    pbCtx.lineWidth=2
+    pbCtx.stroke()
+    pbCtx.fillStyle='#fff'
+    pbCtx.font='7px monospace'
+    pbCtx.textAlign='center'
+    pbCtx.fillText('○',b.x,b.y+3)
+  }
+
+  // flippers
+  for(const key of ['left','right']){
+    const f=pbFlippers[key]
+    const angle=f.up?key==='left'?-0.9:0.9:key==='left'?-0.2:0.2
+    const ex=f.x+Math.cos(angle)*f.length
+    const ey=f.y+Math.sin(angle)*f.length
+    pbCtx.strokeStyle='#888'
+    pbCtx.lineWidth=6
+    pbCtx.lineCap='round'
+    pbCtx.beginPath()
+    pbCtx.moveTo(f.x,f.y)
+    pbCtx.lineTo(ex,ey)
+    pbCtx.stroke()
+    pbCtx.strokeStyle='#ccc'
+    pbCtx.lineWidth=3
+    pbCtx.beginPath()
+    pbCtx.moveTo(f.x,f.y)
+    pbCtx.lineTo(ex,ey)
+    pbCtx.stroke()
+  }
+
+  // ball
+  pbCtx.beginPath()
+  pbCtx.arc(pbBall.x,pbBall.y,pbBall.radius,0,Math.PI*2)
+  pbCtx.fillStyle='#fff'
+  pbCtx.fill()
+  pbCtx.strokeStyle='#aaa'
+  pbCtx.lineWidth=1
+  pbCtx.stroke()
+
+  // lives
+  if(pbRunning){
+    pbCtx.fillStyle='#fff'
+    pbCtx.font='9px monospace'
+    pbCtx.textAlign='left'
+    pbCtx.fillText('♥'.repeat(Math.max(0,pbLives)),4,H-4)
+  }
+
+  // game over
+  if(!pbRunning){
+    pbCtx.fillStyle='rgba(0,0,0,.7)'
+    pbCtx.fillRect(0,0,W,H)
+    pbCtx.fillStyle='#ff0'
+    pbCtx.font='16px "MS Sans Serif",sans-serif'
+    pbCtx.textAlign='center'
+    pbCtx.fillText('GAME OVER',W/2,140)
+    pbCtx.fillStyle='#fff'
+    pbCtx.font='10px "MS Sans Serif",sans-serif'
+    pbCtx.fillText('Score: '+pbScore,W/2,165)
+    pbCtx.fillStyle='#888'
+    pbCtx.font='8px "MS Sans Serif",sans-serif'
+    pbCtx.fillText('Click para reiniciar',W/2,185)
+  }
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='a'||e.key==='A'||e.key==='ArrowLeft')pbFlippers.left.up=true
+  if(e.key==='s'||e.key==='S'||e.key==='ArrowRight')pbFlippers.right.up=true
+})
+document.addEventListener('keyup',e=>{
+  if(e.key==='a'||e.key==='A'||e.key==='ArrowLeft')pbFlippers.left.up=false
+  if(e.key==='s'||e.key==='S'||e.key==='ArrowRight')pbFlippers.right.up=false
+})
+pbCanvas.addEventListener('click',()=>{
+  if(!pbRunning) pbInit()
+})
+pbInit()
 </script>
 
 </body>
