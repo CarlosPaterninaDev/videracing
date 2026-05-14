@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏦 Banco Nacional del Trámite S.A. — Banca Online</title>
+<style>
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes shake{0%,100%{transform:translate(0)}25%{transform:translate(4px,-3px)}50%{transform:translate(-2px,5px)}75%{transform:translate(3px,-4px)}}
+@keyframes scroll{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+@keyframes hue{0%{filter:hue-rotate(0)}100%{filter:hue-rotate(360deg)}}
+@keyframes glitch{0%,100%{letter-spacing:normal}50%{letter-spacing:8px}}
+@keyframes progress{0%{width:0%}90%{width:95%}95%{width:50%}100%{width:0%}}
+*{margin:0;padding:0}
+body{
+  background:#1a0000;
+  font-family:'Comic Sans MS','Chalkboard SE',cursive;
+  color:#0f0;overflow-x:hidden;
+  cursor:wait;
+  background-image:radial-gradient(circle,#3a0000 1px,transparent 1px);
+  background-size:20px 20px;
+}
+.marquee{
+  overflow:hidden;white-space:nowrap;
+  background:linear-gradient(90deg,#ff0,#f0f,#0ff,#ff0);
+  padding:6px 0;border-bottom:4px dashed #0f0;
+  font-size:14px;font-weight:bold;
+}
+.marquee span{
+  display:inline-block;animation:scroll 12s linear infinite;
+  color:#000;text-shadow:0 0 5px #fff;
+}
+.top-bar{
+  text-align:center;padding:12px;border-bottom:3px ridge #f80;
+  background:linear-gradient(135deg,#200,#400,#200);
+}
+.top-bar h1{
+  font-size:28px;animation:blink .6s infinite;
+  background:linear-gradient(90deg,#f0f,#ff0,#0ff);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;text-shadow:none;
+  letter-spacing:5px;margin-bottom:4px;
+}
+.top-bar .sub{
+  font-size:11px;color:#f80;animation:glitch .8s infinite;
+}
+.stock-ticker{
+  background:#000;color:#0f0;font-family:monospace;font-size:11px;
+  padding:4px 0;border-bottom:1px solid #0f0;
+}
+.container{
+  max-width:500px;margin:20px auto;padding:16px;
+  background:linear-gradient(135deg,#2a0000,#1a0020);
+  border:4px ridge #f80;border-radius:0;
+  box-shadow:0 0 40px rgba(255,0,0,.4),inset 0 0 40px rgba(0,0,0,.5);
+  position:relative;
+}
+.security-badges{
+  display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:12px;
+}
+.badge{
+  border:2px groove #f80;padding:4px 8px;font-size:8px;text-align:center;
+  background:#000;color:#ff0;font-family:monospace;text-transform:uppercase;
+  transform:rotate(var(--r,0deg));width:70px;
+}
+.badge:nth-child(1){--r:-2deg}
+.badge:nth-child(2){--r:3deg}
+.badge:nth-child(3){--r:-4deg}
+.account-info{
+  display:grid;grid-template-columns:1fr 1fr;gap:4px;
+  font-size:11px;border:2px dashed #f80;padding:8px;margin-bottom:12px;
+  background:rgba(0,0,0,.6);
+}
+.account-info div{animation:blink var(--b,2s) infinite;}
+.account-info .label{color:#f80;font-size:9px;}
+.account-info .value{color:#0f0;font-weight:bold;}
+.acct-num{font-family:monospace;color:#ff0!important;font-size:16px;animation:hue 3s linear infinite!important;}
+.balance{font-size:22px!important;color:var(--bc,#f00)!important;}
+.card-wrapper{text-align:center;margin-bottom:12px;}
+.card-label{font-size:10px;color:#f80;margin-bottom:4px;animation:blink 1s infinite;}
+.card{
+  width:100%;max-width:340px;height:200px;margin:0 auto;
+  background:linear-gradient(135deg,#3a1a00,#5a2a00);
+  border:3px ridge #ff0;border-radius:4px;padding:16px;
+  position:relative;box-shadow:0 0 20px rgba(255,200,0,.3);
+  color:#ff0;font-family:monospace;text-align:left;overflow:hidden;
+  animation:shake .15s infinite;
+}
+.card .chip{
+  width:40px;height:28px;
+  background:linear-gradient(135deg,#b8960f,#f7d86a);
+  border-radius:3px;margin-bottom:12px;
+}
+.card .number{font-size:18px;letter-spacing:5px;margin-bottom:8px;color:#0f0;}
+.card .info{display:flex;justify-content:space-between;font-size:10px;}
+.card .char{position:absolute;bottom:2px;right:2px;width:70px;height:70px;}
+.card .char svg{width:100%;height:100%;}
+.card .expired-stamp{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-25deg);
+  font-size:24px;color:rgba(255,0,0,.5);font-weight:bold;border:3px solid rgba(255,0,0,.5);
+  padding:4px 12px;border-radius:8px;font-family:Arial;
+}
+.rate-ticker{
+  text-align:center;margin:8px 0;padding:4px;
+  background:#000;border:1px solid #0f0;font-size:10px;
+}
+.rate-ticker .rate{
+  font-size:16px;font-weight:bold;cursor:pointer;
+}
+.rate-ticker .rate:hover{animation:glitch .1s infinite;color:#f00;}
+.form-section{
+  border:2px dotted #f0f;padding:12px;margin:10px 0;
+  background:rgba(0,0,0,.4);
+}
+.form-section label{
+  display:block;font-size:12px;color:#f80;margin:6px 0 2px;
+}
+.form-section input,.form-section select{
+  width:100%;padding:6px 8px;font-family:'Comic Sans MS',cursive;
+  background:#000;color:#0f0;border:2px groove #0f0;font-size:14px;
+  box-sizing:border-box;
+}
+.form-section input:focus{
+  border-color:#f0f;box-shadow:0 0 15px #f0f;outline:none;
+}
+.opt-in{font-size:9px;color:#666;margin:8px 0;}
+.opt-in input{width:auto;margin-right:4px;}
+.opt-in a{color:#f0f;}
+.hidden-btn-area{
+  text-align:center;margin:10px 0;padding:10px;
+  border:2px dashed #444;background:rgba(0,0,0,.3);
+}
+.reveal-btn{
+  font-family:'Comic Sans MS',cursive;font-size:11px;
+  padding:8px 16px;background:#444;color:#888;border:2px outset #666;
+  cursor:pointer;
+}
+.reveal-btn:hover{background:#666;color:#aaa;}
+.btn-group{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px;
+}
+.btn-pagar{
+  font-family:'Comic Sans MS',cursive;font-size:18px;
+  padding:12px 32px;background:linear-gradient(45deg,#f0f,#0ff);
+  color:#000;border:4px ridge #ff0;cursor:pointer;font-weight:bold;
+  text-shadow:0 0 5px #fff;animation:hue 2s linear infinite;
+  position:relative;
+}
+.btn-pagar:disabled{
+  background:#333!important;color:#666!important;border-color:#444!important;
+  cursor:not-allow;animation:none;text-shadow:none;
+}
+.btn-pagar:not(:disabled):hover{animation:shake .05s infinite;}
+.btn-donar{
+  font-family:'Comic Sans MS',cursive;font-size:12px;
+  padding:8px 20px;background:linear-gradient(135deg,#800,#400);
+  color:#ff0;border:2px ridge #f80;cursor:pointer;
+}
+.btn-donar:hover{background:#a00;}
+.status{text-align:center;font-size:10px;color:#666;margin:6px 0;min-height:1.2em;}
+.msg{text-align:center;font-size:14px;margin:8px 0;min-height:1.5em;font-weight:bold;}
+.fake-popup{
+  display:none;position:fixed;top:30%;left:50%;transform:translate(-50%,-50%);
+  max-width:320px;width:90%;z-index:200;
+  background:linear-gradient(135deg,#ff0,#f80);border:4px ridge #f00;
+  padding:20px;text-align:center;font-family:Arial;
+}
+.fake-popup.active{display:block;}
+.fake-popup h2{color:#a00;font-size:16px;margin-bottom:8px;}
+.fake-popup p{color:#000;font-size:12px;margin-bottom:12px;}
+.fake-popup button{
+  background:#a00;color:#fff;border:none;padding:6px 20px;
+  font-size:12px;cursor:pointer;font-family:Arial;
+}
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);
+  justify-content:center;align-items:center;z-index:150;
+}
+.modal-overlay.active{display:flex;}
+.modal{
+  background:linear-gradient(135deg,#1a0000,#2a0020);
+  border:4px ridge #f80;padding:24px;max-width:380px;width:90%;
+  text-align:center;box-shadow:0 0 60px rgba(255,0,0,.5);
+}
+.modal p{margin:12px 0;font-size:13px;color:#ff0;line-height:1.5;font-family:'Comic Sans MS',cursive;}
+.modal-buttons{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:12px;}
+.modal-buttons button{
+  font-family:'Comic Sans MS',cursive;padding:8px 20px;font-size:13px;
+  border:2px ridge;cursor:pointer;font-weight:bold;
+}
+.btn-si{background:#080;color:#0f0;border-color:#0f0!important;}
+.btn-no{background:#800;color:#f00;border-color:#f00!important;}
+.bsod{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:#00a;color:#fff;font-family:'Lucida Console',monospace;
+  padding:40px 20px;font-size:13px;line-height:1.5;
+}
+.bsod.active{display:block;}
+.bsod h1{font-size:24px;margin-bottom:20px;}
+.bsod .cursor{animation:blink .5s infinite;background:#aaa;display:inline-block;width:8px;height:14px;}
+.loading-bar{
+  position:fixed;bottom:0;left:0;right:0;height:4px;z-index:300;
+  background:#000;
+}
+.loading-bar .fill{
+  height:100%;width:0;background:linear-gradient(90deg,#0f0,#ff0,#f0f,#0ff);
+  animation:progress 6s linear infinite;
+}
+.footer{
+  text-align:center;padding:16px;font-size:10px;color:#444;
+  border-top:1px solid #333;margin-top:20px;
+}
+.footer .hit-counter{
+  display:inline-block;background:#000;padding:2px 6px;font-family:monospace;
+  color:#0f0;border:1px inset #0f0;margin:4px;
+}
+.popup-ad{
+  display:none;position:fixed;bottom:20px;right:20px;z-index:180;
+  width:200px;background:linear-gradient(135deg,#00f,#a0f);
+  border:3px ridge #ff0;padding:12px;text-align:center;font-family:Arial;
+}
+.popup-ad.active{display:block;}
+.popup-ad h3{color:#ff0;font-size:12px;margin-bottom:4px;}
+.popup-ad p{color:#fff;font-size:10px;margin-bottom:6px;}
+.popup-ad button{
+  background:#ff0;color:#00f;border:none;padding:4px 12px;
+  font-size:10px;cursor:pointer;font-weight:bold;
+}
+.checkbox-trap{font-size:10px;color:#888;margin:4px 0;}
+.checkbox-trap input{width:auto;}
+</style>
+</head>
+<body>
+
+<div class="marquee"><span>🚨 SU DINERO ESTÁ SEGURO CON NOSOTROS... CREEMOS 🚨 | TASA FIJA 0.0001% — 9999% SUJETO A CAMBIO SIN AVISO | 🚨 DEPÓSITOS ASEGURADOS POR NADIE 🚨</span></div>
+
+<div class="top-bar">
+  <h1>🏦 BANCO DEL MAL S.A.</h1>
+  <div class="sub">— Banca Online Desde 1847 —</div>
+  <div class="sub" style="font-size:9px;color:#888;-webkit-text-fill-color:#888;animation:none">Miembro de la Asociación de Bancos Ficticios</div>
+</div>
+
+<div class="stock-ticker">
+  📈 BACA: -∞ | 🐂 BULL: 0.00% | 💀 MUERTE: ▲ 666.66% | 👻 FANTASMA: ▼ 0.00% | 🏚️ BCRA: ■■■■■
+</div>
+
+<div class="container">
+
+  <div class="security-badges">
+    <div class="badge" style="color:#0f0">✦ SSL 40-BIT ✦<br>SEGURO</div>
+    <div class="badge" style="color:#0ff">✓ VERISIGN<br>CONFIANZA</div>
+    <div class="badge" style="color:#f0f">★ NORTON<br>SECURED 98</div>
+    <div class="badge" style="color:#ff0">☠ HACKER<br>SAFE</div>
+    <div class="badge" style="color:#f80">© MCP<br>CERTIFICADO</div>
+  </div>
+
+  <div class="account-info">
+    <div><span class="label">TITULAR</span><br><span class="value">GOKU S.</span></div>
+    <div><span class="label">TIPO</span><br><span class="value">PLAN INFIERNO</span></div>
+    <div><span class="label">CUENTA</span><br><span class="value acct-num" id="acctNum"></span></div>
+    <div><span class="label">SALDO DISPONIBLE</span><br><span class="value balance" id="balance">-$666.66</span></div>
+    <div style="grid-column:1/3"><span class="label">TASA DE INTERÉS</span><br><span class="value"><span class="rate" id="rateTicker">0.0001% — 9999% ANUAL</span> (sujeta a cambio cada 5 seg)</span></div>
+  </div>
+
+  <div class="card-wrapper">
+    <div class="card-label">💳 TARJETA PRINCIPAL — EXPIRADA</div>
+    <div class="card">
+      <div class="chip"></div>
+      <div class="number">0000 0000 0000 0000</div>
+      <div class="info"><span>GOKU S.</span><span>01/99</span></div>
+      <div class="char">
+        <svg viewBox="0 0 100 100">
+          <polygon points="50,3 56,25 67,13 62,30 78,24 70,38 83,42 67,52 72,63 56,56 50,72 44,56 28,63 33,52 17,42 30,38 22,24 38,30 33,13 44,25" fill="#222"/>
+          <circle cx="50" cy="50" r="22" fill="#f5d0a9"/>
+          <circle cx="42" cy="46" r="5" fill="#fff"/><circle cx="58" cy="46" r="5" fill="#fff"/>
+          <circle cx="44" cy="47" r="2.5" fill="#222"/><circle cx="56" cy="47" r="2.5" fill="#222"/>
+          <path d="M46 56Q50 61 54 56" fill="none" stroke="#222" stroke-width="1.8"/>
+          <rect x="33" y="66" width="34" height="28" rx="4" fill="#f07c20"/>
+          <rect x="33" y="77" width="34" height="5" fill="#1a5276"/>
+          <rect x="33" y="66" width="34" height="5" fill="#c0392b"/>
+        </svg>
+      </div>
+      <div class="expired-stamp">VENCIDA</div>
+    </div>
+    <div style="font-size:8px;color:#666;margin-top:2px">★ Débito Internacional — No válida en este universo ★</div>
+  </div>
+
+  <div class="form-section">
+    <label>💰 MONTO A PAGAR</label>
+    <input type="text" id="amount" placeholder="escribí el monto en letras" oninput="this.value=this.value.replace(/[^a-zA-ZáéíóúñüÁÉÍÓÚÑÜ ]/g,'')">
+    <label style="font-size:9px;color:#666">✱ Cargo por conveniencia: $<span id="feeDisplay">99.99</span> + 1(alma)</label>
+    
+    <label>📋 MOTIVO DEL PAGO</label>
+    <select id="motive">
+      <option>No sé</option>
+      <option>Me obligaron</option>
+      <option>Fue un error</option>
+      <option>Ayuda</option>
+      <option>La página no me deja salir</option>
+    </select>
+
+    <div class="checkbox-trap"><input type="checkbox" id="tc" onchange="this.checked?tickTrap():null"> Acepto los <a href="#" onclick="showTc(event)">Términos y Condiciones</a> (3,847 páginas)</div>
+    <div class="checkbox-trap"><input type="checkbox" id="spam"> Acepto recibir 5,000 emails diarios de ofertas imperdibles</div>
+    <div class="checkbox-trap"><input type="checkbox" id="soul" checked disabled> Cedo mi alma inmortal al banco (obligatorio)</div>
+  </div>
+
+  <div class="hidden-btn-area" id="hiddenArea">
+    <div style="font-size:9px;color:#444;margin-bottom:6px">🔒 ÁREA SEGURA DE PAGO 🔒</div>
+    <button class="reveal-btn" id="revealBtn">HAGA CLIC PARA REVELAR BOTÓN DE PAGO</button>
+    <div id="pagarContainer" style="display:none;margin-top:8px">
+      <div class="btn-group">
+        <button class="btn-pagar" id="btnPagar" disabled>Pagar</button>
+        <button class="btn-donar" id="btnDonar">Donar</button>
+      </div>
+      <div class="status" id="status">Pasá el mouse sobre Pagar 5 veces para activarlo</div>
+      <div class="msg" id="msg"></div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:8px">
+    <div style="font-size:7px;color:#333">Al hacer clic en Pagar acepta que su primogénito sea utilizado como colateral</div>
+  </div>
+
+</div>
+
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <p id="modalText"></p>
+    <div class="modal-buttons" id="modalButtons"></div>
+  </div>
+</div>
+
+<div class="fake-popup" id="virusPopup">
+  <h2>⚠️ ¡VIRUS DETECTADO!</h2>
+  <p>Se han encontrado (37,482) virus en su computadora. Llame al 1-800-DINERO para recibir asistencia inmediata.</p>
+  <button onclick="closeVirus()">OK, AYÚDENME</button>
+</div>
+
+<div class="popup-ad" id="popupAd">
+  <h3>🍹 ¡GANE UN VIAJE A LAS BAHAMAS!</h3>
+  <p>Haga clic aquí para reclamar su premio de $10,000,000 USD</p>
+  <button onclick="closeAd()">RECLAMAR AHORA</button>
+</div>
+
+<div class="bsod" id="bsod">
+  <h1>💀 SISTEMA OPERATIVO HA DETENIDO SU TRANSACCIÓN</h1>
+  <p>STOP: 0xC0000005 (0x000001, 0x000000, 0x000000, 0x000000)</p>
+  <p style="margin-top:12px">BANK_IRQ_NOT_LESS_THAN_PAPERWORK</p>
+  <p style="margin-top:8px">*** Presione cualquier tecla para continuar (no va a funcionar) ***</p>
+  <p style="margin-top:20px">Dirección física de su dinero: 0xVOID</p>
+  <p style="margin-top:8px"><span class="cursor">&nbsp;</span></p>
+</div>
+
+<div class="loading-bar"><div class="fill"></div></div>
+
+<div class="footer">
+  <div class="hit-counter">🖥 VISITANTES: 0000042069</div>
+  <div style="margin:4px 0">© 1998-2003 Banco Nacional del Trámite S.A. — Todos los derechos reservados (no nos hacemos responsables)</div>
+  <div style="font-size:8px">Optimizado para Netscape Navigator 4.0 — Mejor visto a 640×480</div>
+  <div style="font-size:8px">Hosting: GeoCities — Free web hosting since 1995</div>
+</div>
+
+<!-- T&C popup (inline) -->
+<div class="modal-overlay" id="tcModal">
+  <div class="modal" style="max-height:80vh;overflow-y:auto;text-align:left">
+    <p style="font-family:Arial;font-size:11px;color:#fff;text-align:left;line-height:1.6">
+      <strong style="color:#f80">TÉRMINOS Y CONDICIONES</strong><br><br>
+      1. El banco no se hace responsable por pérdidas, robos, secuestros de datos, maldiciones, plagas bíblicas, invasiones alienígenas, o cualquier evento fuera del control de nuestro primo Juan que maneja el sistema.<br><br>
+      2. Al aceptar estos términos, el usuario acepta que su alma pasa a ser propiedad del Banco Nacional del Trámite S.A. por tiempo indefinido (o hasta que el usuario le gane al CEO en una pelea de Dragon Ball Z, lo que ocurra primero).<br><br>
+      3. La tasa de interés puede cambiar sin previo aviso, inclusive mientras el usuario está leyendo esta cláusula. Acaba de cambiar. Felicidades.<br><br>
+      4. Cualquier disputa será resuelta mediante una pelea de gallos virtuales. El banco siempre usará un gallo con Super Saiyan 3.<br><br>
+      5. El usuario autoriza al banco a usar su foto de perfil de redes sociales para fines decorativos en el lobby del banco.<br><br>
+      6. En caso de error del sistema, el banco se quedará con la diferencia. Es política de la empresa.<br><br>
+      7. El botón "Pagar" en realidad ejecuta una donación. El botón "Donar" también. Todos los botones donan. Usted está donando ahora mismo.<br><br>
+      8. Leer estos términos constituye aceptación automática. Si llegó hasta acá, bienvenido a la familia.<br><br>
+      9. El banco se reserva el derecho de inventar más cláusulas en cualquier momento.<br><br>
+      10. Esta es la cláusula 10. No hay cláusula 10. Nunca la hubo.<br><br>
+      <span style="color:#f80">— Al hacer clic en "Aceptar" reconoce que leyó todo esto (mentira, nadie lee los términos) —</span>
+    </p>
+    <div class="modal-buttons"><button class="btn-si" onclick="closeTc()">ACEPTAR (no hay otra opción)</button></div>
+  </div>
+</div>
+
+<script>
+let hoverCount=0
+const pagar=document.getElementById('btnPagar')
+const donar=document.getElementById('btnDonar')
+const modal=document.getElementById('modal')
+const modalText=document.getElementById('modalText')
+const modalButtons=document.getElementById('modalButtons')
+const msg=document.getElementById('msg')
+const status=document.getElementById('status')
+const amount=document.getElementById('amount')
+const revealBtn=document.getElementById('revealBtn')
+const pagarContainer=document.getElementById('pagarContainer')
+const feeDisplay=document.getElementById('feeDisplay')
+const acctNum=document.getElementById('acctNum')
+const balance=document.getElementById('balance')
+
+acctNum.textContent='**** '+String(Math.floor(Math.random()*9000)+1000)+'-'+String(Math.floor(Math.random()*900)+100)
+
+let virusTimer, adTimer, bsodTimer
+function rand(min,max){return Math.random()*(max-min)+min}
+
+function showVirus(){
+  document.getElementById('virusPopup').classList.add('active')
+  setTimeout(()=>document.getElementById('virusPopup').classList.remove('active'),3000)
+}
+function closeVirus(){document.getElementById('virusPopup').classList.remove('active')}
+
+function showAd(){
+  const ad=document.getElementById('popupAd')
+  ad.classList.add('active')
+  setTimeout(()=>ad.classList.remove('active'),4000)
+}
+function closeAd(){document.getElementById('popupAd').classList.remove('active')}
+
+function showBsod(){
+  document.getElementById('bsod').classList.add('active')
+  setTimeout(()=>document.getElementById('bsod').classList.remove('active'),2500)
+}
+
+virusTimer=setInterval(()=>{if(Math.random()<.3)showVirus()},rand(8000,15000))
+adTimer=setInterval(()=>{if(Math.random()<.25)showAd()},rand(5000,12000))
+bsodTimer=setInterval(showBsod,rand(25000,40000))
+
+revealBtn.addEventListener('click',()=>{
+  revealBtn.textContent='🔓 PROCESANDO...'
+  revealBtn.disabled=true
+  setTimeout(()=>{
+    revealBtn.style.display='none'
+    pagarContainer.style.display='block'
+  },2000)
+})
+
+pagar.addEventListener('mouseover',()=>{
+  if(hoverCount>=5) return
+  hoverCount++
+  const t=pagar.textContent
+  pagar.textContent=donar.textContent
+  donar.textContent=t
+  if(hoverCount>=5){
+    pagar.disabled=false
+    status.textContent='✅ ¡Ya podés hacer clic en Pagar! (o en Donar, la verdad da igual)'
+  }else{
+    status.textContent=`😈 Te faltan ${5-hoverCount} veces de pasar el mouse`
+    if(hoverCount>=3) showVirus()
+  }
+})
+
+pagar.addEventListener('click',()=>{
+  if(pagar.disabled) return
+  const val=amount.value.trim()||'nada'
+  const fee=Math.floor(Math.random()*100)+50
+  show(`¿Estás seguro de que querés pagar $${val}? (cargo por conveniencia: $${fee})`, [
+    {label:'Sí, estoy seguro',cls:'btn-si',next:'seguro2'},
+    {label:'No',cls:'btn-no',next:'salvar'}
+  ])
+})
+
+function show(text,buttons){
+  modalText.textContent=text
+  modalButtons.innerHTML=''
+  buttons.forEach(b=>{
+    const el=document.createElement('button')
+    el.className=b.cls
+    el.textContent=b.label
+    el.onclick=()=>{hide();handle(b.next)}
+    modalButtons.appendChild(el)
+  })
+  modal.classList.add('active')
+}
+function hide(){modal.classList.remove('active')}
+
+let extorsionCount=0
+
+function handle(next){
+  const val=amount.value.trim()||'nada'
+  if(next==='seguro2'){
+    show('¿Estás realmente seguro? Tus hijos te lo están pidiendo.',[
+      {label:'Sí, definitivamente',cls:'btn-si',next:'seguro3'},
+      {label:'No...',cls:'btn-no',next:'salvar'}
+    ])
+  }else if(next==='seguro3'){
+    show('¿Consultaste con tu terapeuta antes de hacer esta transacción?',[
+      {label:'Sí',cls:'btn-si',next:'virusCheck'},
+      {label:'No',cls:'btn-no',next:'salvar'}
+    ])
+  }else if(next==='virusCheck'){
+    showVirus()
+    setTimeout(()=>{
+      show('ERROR 0xDEADBEEF: Su transacción ha sido interceptada por un virus. ¿Desea intentar de todos modos?',[
+        {label:'Sí, arriesgarme',cls:'btn-si',next:'fin'},
+        {label:'No, mejor no',cls:'btn-no',next:'salvar'}
+      ])
+    },2000)
+  }else if(next==='fin'){
+    msg.textContent='🙏 ¡Gracias por tu donación (digooo, pago)! Tu dinero está siendo procesado en una dimensión desconocida.'
+    msg.style.color='#0f0'
+  }else if(next==='salvar'){
+    extorsionCount++
+    if(extorsionCount===1){
+      show(`La plata de $${val} se va a usar para salvar a un niño. ¿Estás seguro de que NO querés salvar a un niño?`, [
+        {label:'Sí, quiero donar',cls:'btn-si',next:'fin'},
+        {label:'No quiero',cls:'btn-no',next:'realmente'}
+      ])
+    }else if(extorsionCount===2){
+      show('¿REALMENTE no querés salvar a un niño?', [
+        {label:'Sí, quiero donar',cls:'btn-si',next:'fin'},
+        {label:'No',cls:'btn-no',next:'saved'}
+      ])
+    }
+  }else if(next==='realmente'){
+    show('¿REALMENTE no querés salvar a un niño?', [
+      {label:'Sí, quiero donar',cls:'btn-si',next:'fin'},
+      {label:'No',cls:'btn-no',next:'saved'}
+    ])
+  }else if(next==='saved'){
+    msg.textContent='😇 Un niño ha sido salvado gracias a tu crueldad. ¡Gracias por tu transacción!'
+    msg.style.color='#0f0'
+  }
+}
+
+function tickTrap(){
+  const tc=document.getElementById('tc')
+  setTimeout(()=>{if(tc.checked)tc.checked=false},200)
+}
+
+function showTc(e){
+  e.preventDefault()
+  document.getElementById('tcModal').classList.add('active')
+  handleTcScroll()
+}
+
+function handleTcScroll(){
+  const modalEl=document.querySelector('#tcModal .modal')
+  modalEl.onscroll=function(){
+    if(this.scrollTop>100){
+      document.getElementById('tc').checked=true
+    }
+  }
+}
+
+function closeTc(){
+  document.getElementById('tcModal').classList.remove('active')
+}
+
+setInterval(()=>{
+  const rates=['0.0001% — 9999%','-5% — ∞%','1% — 1000000%','0% — 0% (ya no tiene plata)','▼ 50% — ▲ 666%','■■■ (error)']
+  document.querySelector('.rate').textContent=rates[Math.floor(Math.random()*rates.length)]
+  feeDisplay.textContent=Math.floor(Math.random()*200)+20
+},5000)
+
+setInterval(()=>{
+  const bals=['-$666.66','-$999.99','$0.00 (qué pobre)','ERROR','-∞','$ -','■■■','$0.02 (le quedó justo)','$-'+Math.floor(Math.random()*9999)+'.'+Math.floor(Math.random()*99)]
+  balance.textContent=bals[Math.floor(Math.random()*bals.length)]
+},3000)
+</script>
+
+</body>
+</html>
