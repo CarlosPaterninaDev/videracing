@@ -287,7 +287,7 @@ body{
   <div class="form-section">
     <label>💰 MONTO A PAGAR</label>
     <input type="text" id="amount" placeholder="escribí el monto en letras" oninput="this.value=this.value.replace(/[^a-zA-ZáéíóúñüÁÉÍÓÚÑÜ ]/g,'')">
-    <label style="font-size:9px;color:#666">✱ Cargo por conveniencia: $<span id="feeDisplay">99.99</span> + 1(alma)</label>
+    <label style="font-size:9px;color:#666">✱ Cargo por conveniencia: $<span id="feeDisplay">99.99</span> + 1 riñón (usado)</label>
     
     <label>📋 MOTIVO DEL PAGO</label>
     <select id="motive">
@@ -300,7 +300,7 @@ body{
 
     <div class="checkbox-trap"><input type="checkbox" id="tc" onchange="this.checked?tickTrap():null"> Acepto los <a href="#" onclick="showTc(event)">Términos y Condiciones</a> (3,847 páginas)</div>
     <div class="checkbox-trap"><input type="checkbox" id="spam"> Acepto recibir 5,000 emails diarios de ofertas imperdibles</div>
-    <div class="checkbox-trap"><input type="checkbox" id="soul" checked disabled> Cedo mi alma inmortal al banco (obligatorio)</div>
+    <div class="checkbox-trap"><input type="checkbox" id="soul" checked disabled> Cedo mi colección de figuritas al banco (obligatorio)</div>
   </div>
 
   <div class="hidden-btn-area" id="hiddenArea">
@@ -330,15 +330,15 @@ body{
 </div>
 
 <div class="fake-popup" id="virusPopup">
-  <h2>⚠️ ¡VIRUS DETECTADO!</h2>
-  <p>Se han encontrado (37,482) virus en su computadora. Llame al 1-800-DINERO para recibir asistencia inmediata.</p>
-  <button onclick="closeVirus()">OK, AYÚDENME</button>
+  <h2>🦠 ¡VIRUS DETECTADO!</h2>
+  <p>Se encontraron (37,482) virus en su computadora. Hemos identificado el problema: usted. Por favor, apague la computadora y salga de la habitación.</p>
+  <button onclick="closeVirus()">OK, ME ENTREGO</button>
 </div>
 
 <div class="popup-ad" id="popupAd">
-  <h3>🍹 ¡GANE UN VIAJE A LAS BAHAMAS!</h3>
-  <p>Haga clic aquí para reclamar su premio de $10,000,000 USD</p>
-  <button onclick="closeAd()">RECLAMAR AHORA</button>
+  <h3>🍹 ¡GANÓ UN VIAJE!</h3>
+  <p>El viaje es a la oficina de al lado. Camine 2 metros y va a llegar. Acá no sobra la plata para viajes.</p>
+  <button onclick="closeAd()">RECLAMAR (la caminata)</button>
 </div>
 
 <div class="bsod" id="bsod">
@@ -357,6 +357,7 @@ body{
   <div style="margin:4px 0">© 1998-2003 Banco Nacional del Trámite S.A. — Todos los derechos reservados (no nos hacemos responsables)</div>
   <div style="font-size:8px">Optimizado para Netscape Navigator 4.0 — Mejor visto a 640×480</div>
   <div style="font-size:8px">Hosting: GeoCities — Free web hosting since 1995</div>
+  <div id="timeCounter" style="font-size:9px;color:#333;margin-top:6px">⏱️ Llevás 0 segundos de tu vida acá. No los vas a recuperar.</div>
 </div>
 
 <!-- T&C popup (inline) -->
@@ -365,7 +366,7 @@ body{
     <p style="font-family:Arial;font-size:11px;color:#fff;text-align:left;line-height:1.6">
       <strong style="color:#f80">TÉRMINOS Y CONDICIONES</strong><br><br>
       1. El banco no se hace responsable por pérdidas, robos, secuestros de datos, maldiciones, plagas bíblicas, invasiones alienígenas, o cualquier evento fuera del control de nuestro primo Juan que maneja el sistema.<br><br>
-      2. Al aceptar estos términos, el usuario acepta que su alma pasa a ser propiedad del Banco Nacional del Trámite S.A. por tiempo indefinido (o hasta que el usuario le gane al CEO en una pelea de Dragon Ball Z, lo que ocurra primero).<br><br>
+      2. Al aceptar estos términos, el usuario acepta que su historial de búsqueda de Google pasa a ser propiedad del Banco Nacional del Trámite S.A. por tiempo indefinido (o hasta que el usuario le gane al CEO en una pelea de Dragon Ball Z, lo que ocurra primero).<br><br>
       3. La tasa de interés puede cambiar sin previo aviso, inclusive mientras el usuario está leyendo esta cláusula. Acaba de cambiar. Felicidades.<br><br>
       4. Cualquier disputa será resuelta mediante una pelea de gallos virtuales. El banco siempre usará un gallo con Super Saiyan 3.<br><br>
       5. El usuario autoriza al banco a usar su foto de perfil de redes sociales para fines decorativos en el lobby del banco.<br><br>
@@ -390,6 +391,12 @@ const modalButtons=document.getElementById('modalButtons')
 const msg=document.getElementById('msg')
 const status=document.getElementById('status')
 const amount=document.getElementById('amount')
+const timeCounter=document.getElementById('timeCounter')
+let secondsWasted=0
+setInterval(()=>{
+  secondsWasted++
+  timeCounter.textContent=`⏱️ Llevás ${secondsWasted} segundos de tu vida acá. No los vas a recuperar.`
+},1000)
 const revealBtn=document.getElementById('revealBtn')
 const pagarContainer=document.getElementById('pagarContainer')
 const feeDisplay=document.getElementById('feeDisplay')
@@ -438,20 +445,56 @@ pagar.addEventListener('mouseover',()=>{
   const t=pagar.textContent
   pagar.textContent=donar.textContent
   donar.textContent=t
+  const msgs=[
+    'Te faltan 4 veces... todavía estás a tiempo de arrepentirte',
+    '3 veces más... pensalo bien, tu familia te necesita',
+    '2... ya casi, tenés miedo?',
+    '1... última oportunidad. No te vamos a juzgar (mentira)',
+  ]
   if(hoverCount>=5){
     pagar.disabled=false
-    status.textContent='✅ ¡Ya podés hacer clic en Pagar! (o en Donar, la verdad da igual)'
+    status.textContent='✅ ¡Ya podés hacer clic en Pagar! (o no, total es lo mismo)'
+    document.querySelector('.btn-pagar').style.animation='shake .08s infinite'
   }else{
-    status.textContent=`😈 Te faltan ${5-hoverCount} veces de pasar el mouse`
-    if(hoverCount>=3) showVirus()
+    status.textContent=msgs[hoverCount-1]||'😈 te falta... no sé, pasá el mouse de nuevo'
+    if(hoverCount>=3){
+      setTimeout(showVirus,300)
+      status.textContent+=' 🦠 (y te agarró un virus, suerte)'
+    }
   }
 })
+
+donar.addEventListener('click',()=>{
+  if(pagar.disabled) return
+  const val=amount.value.trim()||'nada'
+  show(`¡Gracias por donar $${val}! (mentira, esto es un error 404). Ahora con tu donación vamos a comprar un microondas para la oficina. ¿Estás de acuerdo?`, [
+    {label:'Sí, merecen un microondas',cls:'btn-si',next:'donar2'},
+    {label:'No, compren vianda',cls:'btn-no',next:'donar3'}
+  ])
+})
+
+function donarFlow(next){
+  if(next==='donar2'){
+    show('Genial. El microondas llegó. Se rompió a la semana. Necesitamos otra donación para arreglarlo.',[
+      {label:'Bueno, dale',cls:'btn-si',next:'donar4'},
+      {label:'No',cls:'btn-no',next:'salvar'}
+    ])
+  }else if(next==='donar3'){
+    show('La vianda es cara. ¿Estás seguro de que no querés donar para el microondas? Los sándwiches fríos son tristes.',[
+      {label:'Está bien, dono',cls:'btn-si',next:'donar2'},
+      {label:'No, que coman frío',cls:'btn-no',next:'donar4'}
+    ])
+  }else if(next==='donar4'){
+    msg.textContent='🙏 Gracias por donar '+(amount.value.trim()||'nada')+'. Le vamos a mandar la factura por correo. Y un volante. Y 47 emails más.'
+    msg.style.color='#0f0'
+  }
+}
 
 pagar.addEventListener('click',()=>{
   if(pagar.disabled) return
   const val=amount.value.trim()||'nada'
   const fee=Math.floor(Math.random()*100)+50
-  show(`¿Estás seguro de que querés pagar $${val}? (cargo por conveniencia: $${fee})`, [
+  show(`¿Estás seguro de que querés pagar $${val}? (cargo oculto por respirar: $${fee})`, [
     {label:'Sí, estoy seguro',cls:'btn-si',next:'seguro2'},
     {label:'No',cls:'btn-no',next:'salvar'}
   ])
@@ -475,47 +518,82 @@ let extorsionCount=0
 
 function handle(next){
   const val=amount.value.trim()||'nada'
+  if(['donar2','donar3','donar4'].includes(next)){donarFlow(next);return}
   if(next==='seguro2'){
-    show('¿Estás realmente seguro? Tus hijos te lo están pidiendo.',[
+    show('¿Estás realmente seguro? Tus plantas te están mirando con desaprobación.',[
       {label:'Sí, definitivamente',cls:'btn-si',next:'seguro3'},
       {label:'No...',cls:'btn-no',next:'salvar'}
     ])
   }else if(next==='seguro3'){
-    show('¿Consultaste con tu terapeuta antes de hacer esta transacción?',[
-      {label:'Sí',cls:'btn-si',next:'virusCheck'},
-      {label:'No',cls:'btn-no',next:'salvar'}
+    show('¿Consultaste con un cuentólogo autorizado? (O con tu gato, cualquiera sirve)',[
+      {label:'Consulté',cls:'btn-si',next:'virusCheck'},
+      {label:'No tengo gato',cls:'btn-no',next:'salvar'}
     ])
   }else if(next==='virusCheck'){
     showVirus()
     setTimeout(()=>{
-      show('ERROR 0xDEADBEEF: Su transacción ha sido interceptada por un virus. ¿Desea intentar de todos modos?',[
-        {label:'Sí, arriesgarme',cls:'btn-si',next:'fin'},
-        {label:'No, mejor no',cls:'btn-no',next:'salvar'}
+      show('ERROR 0xC0000005: Su transacción ha sido interceptada por un virus. También por su vecino. ¿Desea intentar de todos modos?',[
+        {label:'Sí, dale para adelante',cls:'btn-si',next:'fin'},
+        {label:'No, mejor me duermo',cls:'btn-no',next:'salvar'}
       ])
     },2000)
   }else if(next==='fin'){
-    msg.textContent='🙏 ¡Gracias por tu donación (digooo, pago)! Tu dinero está siendo procesado en una dimensión desconocida.'
+    msg.textContent='🎉 ¡Felicitaciones! Su pago de $'+val+' ha sido convertido en 47 emojis y enviado a un servidor en la luna. ¡No se preocupe, llegó bien!'
     msg.style.color='#0f0'
   }else if(next==='salvar'){
     extorsionCount++
     if(extorsionCount===1){
-      show(`La plata de $${val} se va a usar para salvar a un niño. ¿Estás seguro de que NO querés salvar a un niño?`, [
-        {label:'Sí, quiero donar',cls:'btn-si',next:'fin'},
-        {label:'No quiero',cls:'btn-no',next:'realmente'}
+      show(`Con $${val} podríamos salvar a un niño. O comprar 37 empanadas. Las empanadas se enfrian. El niño no. Bueno, tampoco tiene plata. ¿Estás seguro de que no querés salvar a un niño?`, [
+        {label:'Sí, salven al niño',cls:'btn-si',next:'fin'},
+        {label:'No, quiero las empanadas',cls:'btn-no',next:'tortugas'}
       ])
     }else if(extorsionCount===2){
-      show('¿REALMENTE no querés salvar a un niño?', [
-        {label:'Sí, quiero donar',cls:'btn-si',next:'fin'},
-        {label:'No',cls:'btn-no',next:'saved'}
+      show('Bueno, ¿y las tortugas marinas? Las tortugas también existen. ¿No te importan las tortugas?',[
+        {label:'Sí, salven las tortugas',cls:'btn-si',next:'fin'},
+        {label:'No, que se arreglen solas',cls:'btn-no',next:'wifi'}
+      ])
+    }else if(extorsionCount===3){
+      show('¿Y el Wi-Fi de la oficina? Está muy lento. Con tu donación podríamos cambiarlo. Tus compañeros te lo agradecerían. O no, son compañeros de laburo nomás.',[
+        {label:'Dale, pongan buen Wi-Fi',cls:'btn-si',next:'fin'},
+        {label:'Que laburen',cls:'btn-no',next:'pajaritos'}
+      ])
+    }else if(extorsionCount===4){
+      show('¿Sabías que cada vez que decís que no, un pajarito pierde una pluma? Ya perdieron 47 plumas. Vas a tener eso en tu conciencia.',[
+        {label:'Salven los pajaritos',cls:'btn-si',next:'fin'},
+        {label:'Que tengan frío',cls:'btn-no',next:'calcetines'}
+      ])
+    }else if(extorsionCount===5){
+      show('Bueno, y los calcetines que perdés en el lavarropas? Con tu donación podríamos hacer una investigación. Esto ya es personal.',[
+        {label:'DONOOOOO',cls:'btn-si',next:'fin'},
+        {label:'NO (soy terco)',cls:'btn-no',next:'saved'}
       ])
     }
-  }else if(next==='realmente'){
-    show('¿REALMENTE no querés salvar a un niño?', [
-      {label:'Sí, quiero donar',cls:'btn-si',next:'fin'},
-      {label:'No',cls:'btn-no',next:'saved'}
+  }else if(next==='tortugas'){
+    extorsionCount=2
+    show('Bueno, ¿y las tortugas marinas? Las tortugas también existen. ¿No te importan las tortugas?',[
+      {label:'Sí, salven las tortugas',cls:'btn-si',next:'fin'},
+      {label:'No, que se arreglen solas',cls:'btn-no',next:'wifi'}
+    ])
+  }else if(next==='wifi'){
+    extorsionCount=3
+    show('¿Y el Wi-Fi de la oficina? Está muy lento. Con tu donación podríamos cambiarlo. Tus compañeros te lo agradecerían. O no, son compañeros de laburo nomás.',[
+      {label:'Dale, pongan buen Wi-Fi',cls:'btn-si',next:'fin'},
+      {label:'Que laburen',cls:'btn-no',next:'pajaritos'}
+    ])
+  }else if(next==='pajaritos'){
+    extorsionCount=4
+    show('¿Sabías que cada vez que decís que no, un pajarito pierde una pluma? Ya perdieron 47 plumas. Vas a tener eso en tu conciencia.',[
+      {label:'Salven los pajaritos',cls:'btn-si',next:'fin'},
+      {label:'Que tengan frío',cls:'btn-no',next:'calcetines'}
+    ])
+  }else if(next==='calcetines'){
+    extorsionCount=5
+    show('Bueno, y los calcetines que perdés en el lavarropas? Con tu donación podríamos hacer una investigación. Esto ya es personal.',[
+      {label:'DONOOOOO',cls:'btn-si',next:'fin'},
+      {label:'NO (soy terco)',cls:'btn-no',next:'saved'}
     ])
   }else if(next==='saved'){
-    msg.textContent='😇 Un niño ha sido salvado gracias a tu crueldad. ¡Gracias por tu transacción!'
+    msg.textContent='😇 ¡Se salvaron 3 niños, 5 tortugas, 12 pajaritos y se arregló el Wi-Fi! Todo gracias a tu tozudez. ¡Gracias por tu transacción!'
     msg.style.color='#0f0'
   }
 }
@@ -545,13 +623,23 @@ function closeTc(){
 }
 
 setInterval(()=>{
-  const rates=['0.0001% — 9999%','-5% — ∞%','1% — 1000000%','0% — 0% (ya no tiene plata)','▼ 50% — ▲ 666%','■■■ (error)']
+  const rates=[
+    '0.0001% — 9999% (fluctúa con el humor del dueño)','-5% — ∞% (no pregunte)',
+    'la que quieras, total no cobramos','0% — 0% (ya no tiene plata)',
+    '▼ 50% (le estamos robando, básicamente)','■■■ (error: el sistema está en la luna)',
+    '1% — 1000000% (sujeta a su cara)'
+  ]
   document.querySelector('.rate').textContent=rates[Math.floor(Math.random()*rates.length)]
   feeDisplay.textContent=Math.floor(Math.random()*200)+20
 },5000)
 
 setInterval(()=>{
-  const bals=['-$666.66','-$999.99','$0.00 (qué pobre)','ERROR','-∞','$ -','■■■','$0.02 (le quedó justo)','$-'+Math.floor(Math.random()*9999)+'.'+Math.floor(Math.random()*99)]
+  const bals=[
+    '-$500 (gastaste en empanadas)','$0.02 (te queda justo para el bondi)','DEUDA: 3 abrazos pendientes',
+    'ERROR: no es su turno','$ — (en negro)','■■■ (el sistema colgó, como siempre)',
+    '$ 0.00 (bienvenido al club)','$-'+Math.floor(Math.random()*9999)+'.'+Math.floor(Math.random()*99),
+    'SU SALDO: una deuda emocional'
+  ]
   balance.textContent=bals[Math.floor(Math.random()*bals.length)]
 },3000)
 </script>
