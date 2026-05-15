@@ -418,6 +418,7 @@ body{
     <div class="form-section">
       <label>MONTO A PAGAR</label>
       <input type="text" id="amount" placeholder="escribí el monto en letras" oninput="this.value=this.value.replace(/[^a-zA-ZáéíóúñüÁÉÍÓÚÑÜ ]/g,'')">
+      <div id="amountError" style="color:#f00;font-size:10px;display:none;margin:2px 0 4px 0;font-weight:bold;animation:shake .1s infinite">⚠️ ERROR: Tenés que escribir un monto.</div>
       <label style="font-size:9px;color:#808080">✱ Cargo por conveniencia: $<span id="feeDisplay">99.99</span> + 1 riñón (usado)</label>
       
       <label>MOTIVO DEL PAGO</label>
@@ -564,11 +565,23 @@ virusTimer=setInterval(()=>{if(Math.random()<.3)showVirus()},rand(8000,15000))
 bsodTimer=setInterval(showBsod,rand(25000,40000))
 
 revealBtn.addEventListener('click',()=>{
+  let hasError = false;
   if (!document.getElementById('tc').checked){
-    document.getElementById('tcError').style.display='block'
-    return
+    document.getElementById('tcError').style.display='block';
+    hasError = true;
+  } else {
+    document.getElementById('tcError').style.display='none';
   }
-  document.getElementById('tcError').style.display='none'
+  
+  if (amount.value.trim() === '') {
+    document.getElementById('amountError').style.display='block';
+    hasError = true;
+  } else {
+    document.getElementById('amountError').style.display='none';
+  }
+  
+  if (hasError) return;
+  
   openMazeCaptcha()
 })
 
