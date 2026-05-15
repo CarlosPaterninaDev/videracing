@@ -6,85 +6,27 @@
     <title>I Wanna Pay My Card</title>
     <style>
         body {
-            background-color: #1a1a1a;
-            color: #fff;
+            background-color: #000;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
         }
 
-        h1 {
-            margin: 0 0 10px 0;
-            text-shadow: 2px 2px 0px #ff0000;
-        }
-
-        #game-container {
-            position: relative;
-        }
-
         canvas {
-            background-color: #000;
-            border: 4px solid #333;
+            background-color: #111;
+            border: 2px solid #333;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
             image-rendering: pixelated;
-        }
-
-        #ui {
-            display: flex;
-            justify-content: space-between;
-            width: 800px;
-            margin-bottom: 10px;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        #death-counter {
-            color: #ff4444;
-        }
-
-        #level-counter {
-            color: #44ff44;
-        }
-
-        .controls {
-            margin-top: 15px;
-            text-align: center;
-            color: #aaa;
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .key {
-            background: #333;
-            padding: 3px 6px;
-            border-radius: 4px;
-            color: #fff;
-            font-weight: bold;
+            max-width: 100%;
+            max-height: 100%;
         }
     </style>
 </head>
 <body>
-    <h1>I WANNA PAY MY CARD</h1>
-    <div id="ui">
-        <div id="level-counter">Nivel: <span id="level-display">1</span>/3</div>
-        <div id="death-counter">Deudas (Muertes): <span id="death-display">0</span></div>
-    </div>
-    
-    <div id="game-container">
-        <canvas id="gameCanvas" width="800" height="576"></canvas>
-    </div>
-
-    <div class="controls">
-        Moverse: <span class="key">←</span> <span class="key">→</span> | 
-        Saltar: <span class="key">Z</span> o <span class="key">Espacio</span> (Presiona de nuevo en el aire para Doble Salto) <br>
-        Reiniciar Nivel: <span class="key">R</span>
-    </div>
-
+    <canvas id="gameCanvas" width="800" height="576"></canvas>
     <script src="game.js"></script>
 </body>
 </html>

@@ -1,7 +1,5 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
-const levelDisplay = document.getElementById('level-display');
-const deathDisplay = document.getElementById('death-display');
 
 // Game constants
 const FPS = 50;
@@ -312,7 +310,6 @@ function die() {
     if (gameState === 'dead') return;
     gameState = 'dead';
     deathCount++;
-    deathDisplay.innerText = deathCount;
     playSound('death');
 
     // Create blood particles
@@ -421,7 +418,6 @@ function loadLevel(index) {
     }
     
     currentLevel = index;
-    levelDisplay.innerText = currentLevel + 1;
     gameState = 'playing';
     
     tiles = [];
@@ -612,14 +608,28 @@ function draw() {
         ctx.fillStyle = 'rgba(0,0,0,0.7)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#44ff44';
-        ctx.font = '40px Courier New';
+        ctx.font = '40px "Courier New", Courier, monospace';
         ctx.textAlign = 'center';
         ctx.fillText("¡DEUDA PAGADA!", canvas.width / 2, canvas.height / 2 - 20);
         ctx.fillStyle = '#fff';
-        ctx.font = '20px Courier New';
-        ctx.fillText(`Muertes totales: ${deathCount}`, canvas.width / 2, canvas.height / 2 + 20);
+        ctx.font = '20px "Courier New", Courier, monospace';
+        ctx.fillText(`Deudas acumuladas: ${deathCount}`, canvas.width / 2, canvas.height / 2 + 20);
         ctx.fillText("Recarga la página para sufrir de nuevo.", canvas.width / 2, canvas.height / 2 + 60);
     }
+
+    // HUD overlay
+    ctx.textAlign = 'left';
+    ctx.font = 'bold 20px "Courier New", Courier, monospace';
+    ctx.fillStyle = '#44ff44';
+    ctx.fillText(`Nivel: ${currentLevel + 1}/3`, 20, 30);
+    ctx.fillStyle = '#ff4444';
+    ctx.fillText(`Deudas: ${deathCount}`, 20, 55);
+
+    // Controls overlay
+    ctx.textAlign = 'center';
+    ctx.font = '14px "Courier New", Courier, monospace';
+    ctx.fillStyle = '#aaaaaa';
+    ctx.fillText("Controles: [← →] Moverse | [Z] o [Espacio] Saltar (Doble Salto) | [R] Reiniciar Nivel", canvas.width / 2, canvas.height - 10);
 }
 
 function loop() {
