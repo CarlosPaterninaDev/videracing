@@ -101,6 +101,61 @@ let particles = [];
 let startPos = { x: 0, y: 0 };
 let exitRect = { x: 0, y: 0, w: TILE_SIZE, h: TILE_SIZE };
 
+const playerCanvasRight = document.createElement('canvas');
+playerCanvasRight.width = 32;
+playerCanvasRight.height = 32;
+const playerCanvasLeft = document.createElement('canvas');
+playerCanvasLeft.width = 32;
+playerCanvasLeft.height = 32;
+
+function renderPlayerSprites() {
+    const pal = {
+        'R': '#e52521', // Red
+        'B': '#049cd8', // Blue
+        'S': '#fbd000', // Skin
+        'H': '#432817', // Hair/Shoes
+        'Y': '#fbd000', // Yellow buttons
+        'W': '#ffffff', // White gloves
+        'K': '#000000', // Black
+        '.': null
+    };
+    const sprite = [
+        ".....RRRRR......",
+        "....RRRRRRRRR...",
+        "....HHHSSSK.....",
+        "...HSHSSSKSS....",
+        "...HSHHSSSHSS...",
+        "...HHSSKKKK.....",
+        "......SSSSSSS...",
+        ".....RRBRRR.....",
+        "....RRRBBBRRR...",
+        "...RRRRBBBBRRRR.",
+        "..WWRRBYYBYYRRWW",
+        "..WWWBBBBBBBBWWW",
+        "..WW.BBBBBBBB.WW",
+        ".....BBBBBB.....",
+        "....HHH....HHH..",
+        "...HHHH....HHHH."
+    ];
+    
+    let ctxR = playerCanvasRight.getContext('2d', { willReadFrequently: true });
+    let ctxL = playerCanvasLeft.getContext('2d', { willReadFrequently: true });
+    
+    for (let y = 0; y < 16; y++) {
+        for (let x = 0; x < 16; x++) {
+            let c = sprite[y][x];
+            if (pal[c]) {
+                ctxR.fillStyle = pal[c];
+                ctxR.fillRect(x * 2, y * 2, 2, 2);
+                
+                ctxL.fillStyle = pal[c];
+                ctxL.fillRect((15 - x) * 2, y * 2, 2, 2);
+            }
+        }
+    }
+}
+renderPlayerSprites();
+
 // Player Object
 const player = {
     x: 0, y: 0,
@@ -242,21 +297,13 @@ const player = {
     draw: function() {
         if (gameState === 'dead') return;
         
-        // Draw player (A stressed blue square)
-        ctx.fillStyle = '#4488ff';
         let drawX = this.x - (32 - this.w) / 2;
         let drawY = this.y - (32 - this.h);
         
-        ctx.fillRect(drawX, drawY, 32, 32);
-
-        // Draw eyes
-        ctx.fillStyle = 'white';
         if (this.facingRight) {
-            ctx.fillRect(drawX + 18, drawY + 8, 4, 4);
-            ctx.fillRect(drawX + 26, drawY + 8, 4, 4);
+            ctx.drawImage(playerCanvasRight, drawX, drawY);
         } else {
-            ctx.fillRect(drawX + 2, drawY + 8, 4, 4);
-            ctx.fillRect(drawX + 10, drawY + 8, 4, 4);
+            ctx.drawImage(playerCanvasLeft, drawX, drawY);
         }
     }
 };
